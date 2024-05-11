@@ -5,7 +5,7 @@ CREATE PROCEDURE procedureInsertPelicula(
     IN nuevoTitulo VARCHAR(255),
     IN nuevoGenero VARCHAR(255),
     IN nuevoUrlPoster VARCHAR(255),
-    IN rating VARCHAR(100),
+    IN rating DECIMAL(4,2),
     IN sinopsis TEXT
 )
 BEGIN
@@ -22,7 +22,7 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2400: Pelicula.urlPoster debe tener 1 caracter o más';
     END IF;
 
-    IF LENGTH(rating) = 0 THEN
+    IF rating < 0 OR rating > 10 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2500: Pelicula.rating debe tener 1 caracter o más';
     END IF;
 
