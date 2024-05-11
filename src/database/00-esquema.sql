@@ -10,7 +10,7 @@ CREATE TABLE Pelicula (
     titulo VARCHAR(255) NOT NULL,
     genero VARCHAR(255) NOT NULL,
     urlPoster VARCHAR(255) NOT NULL,
-    rating VARCHAR(100) NOT NULL,
+    rating DECIMAL(4,2) NOT NULL,
     sinopsis TEXT NOT NULL
 );
 
