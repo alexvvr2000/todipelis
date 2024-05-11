@@ -23,7 +23,7 @@ BEGIN
     END IF;
 
     -- Check if the rating is between 0 and 10
-    IF actualizadoEstrellas < 0 OR actualizadoEstrellas > 10 THEN
+    IF actualizadoEstrellas < 0 OR actualizadoEstrellas > 5 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 7500: Critica.estrellas debe estar entre 0 y 10';
     END IF;
 
