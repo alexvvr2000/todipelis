@@ -1,3 +1,6 @@
+# secrets docker
+src/api/api-key.txt
+
 # pyenv folder version
 .python-version
 
