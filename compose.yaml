@@ -1,8 +1,8 @@
 services:
   database:
     build:
-      context: .
-      dockerfile: ./src/database/Dockerfile
+      context: ./src/database
+      dockerfile: Dockerfile
     ports:
       - "33062:33062"
     volumes:
