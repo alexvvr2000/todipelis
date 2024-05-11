@@ -1,0 +1,25 @@
+services:
+  database:
+    build:
+      context: .
+      dockerfile: ./src/database/Dockerfile
+    ports:
+      - "33062:33062"
+    volumes:
+      - db_data:/var/lib/mysql
+    secrets:
+      - root-password
+
+secrets:
+  api-key:
+    file: ./src/api/api-key.txt
+  root-password:
+    file: ./src/database/root-password.txt
+
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./mariadb_data
