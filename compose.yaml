@@ -4,7 +4,7 @@ services:
       context: ./src/database
       dockerfile: Dockerfile
     ports:
-      - "33062:33062"
+      - "127.0.0.1:3306:3306"
     volumes:
       - db_data:/var/lib/mysql
     secrets:
