@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS todipelis;
+use todopelis;
+
 -- Crear la tabla Usuario
 CREATE TABLE Usuario (
     idUsuario INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
