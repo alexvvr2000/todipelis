@@ -28,7 +28,7 @@ BEGIN
     END IF;
 
     -- Verificar validez de las estrellas
-    IF insertadoEstrellas < 0 OR insertadoEstrellas > 10 THEN
+    IF insertadoEstrellas < 0 OR insertadoEstrellas > 5 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 3500: Critica.estrellas debe estar entre 0 y 10';
     END IF;
 
