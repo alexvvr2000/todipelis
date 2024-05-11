@@ -1,3 +1,5 @@
+use todipelis;
+
 DELIMITER //
 
 CREATE PROCEDURE procedureObtenerPelicula(IN idPeliculaBuscada VARCHAR(100))

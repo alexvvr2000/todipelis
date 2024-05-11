@@ -1,3 +1,5 @@
+use todipelis;
+
 DELIMITER //
 
 CREATE FUNCTION funcionCantidadFavoritosUsuario(buscadoIdUsuario INT)

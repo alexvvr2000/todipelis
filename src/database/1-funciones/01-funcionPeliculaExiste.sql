@@ -1,3 +1,5 @@
+use todipelis;
+
 DELIMITER //
 
 CREATE FUNCTION funcionPeliculaExiste(buscadoIdPelicula VARCHAR(100))

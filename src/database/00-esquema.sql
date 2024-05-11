@@ -1,3 +1,5 @@
+use todipelis;
+
 CREATE DATABASE IF NOT EXISTS todipelis;
 use todopelis;
 
