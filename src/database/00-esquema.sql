@@ -1,14 +1,12 @@
 CREATE DATABASE IF NOT EXISTS todipelis;
 USE todipelis;
 
--- Crear la tabla Usuario
 CREATE TABLE Usuario (
     idUsuario INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     nombreUsuario VARCHAR(100) NOT NULL,
     urlFotoPerfil VARCHAR(255) NULL
 );
 
--- Crear la tabla Pelicula
 CREATE TABLE Pelicula (
     idPelicula VARCHAR(100) PRIMARY KEY,
     titulo VARCHAR(255) NOT NULL,
@@ -18,7 +16,6 @@ CREATE TABLE Pelicula (
     sinopsis TEXT NOT NULL
 );
 
--- Crear la tabla ListaCriticas
 CREATE TABLE ListaCriticas (
     idUsuario INT UNSIGNED,
     idPelicula VARCHAR(100),
@@ -31,7 +28,6 @@ CREATE TABLE ListaCriticas (
     FOREIGN KEY (idPelicula) REFERENCES Pelicula(idPelicula) ON DELETE CASCADE
 );
 
--- Crear la tabla ListaFavoritos
 CREATE TABLE ListaFavoritos (
     idUsuario INT UNSIGNED,
     idPelicula VARCHAR(100),

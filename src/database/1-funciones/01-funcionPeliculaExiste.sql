@@ -8,12 +8,10 @@ NOT DETERMINISTIC
 BEGIN
     DECLARE existe INT;
 
-    -- Verificar si la película existe
     SELECT COUNT(*) INTO existe
     FROM Pelicula
     WHERE idPelicula = buscadoIdPelicula;
 
-    -- Retornar TRUE si la película existe, FALSE si no
     IF existe > 0 THEN
         RETURN TRUE;
     ELSE

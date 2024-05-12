@@ -11,7 +11,6 @@ CREATE PROCEDURE procedureInsertPelicula(
     IN sinopsis TEXT
 )
 BEGIN
-    -- Verificar longitud de los parámetros
     IF LENGTH(nuevoTitulo) = 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2200: Pelicula.titulo debe tener 1 caracter o más';
     END IF;
@@ -31,13 +30,9 @@ BEGIN
     IF LENGTH(sinopsis) = 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2600: Pelicula.sinopsis debe tener 1 caracter o más';
     END IF;
-
-    -- Verificar si la película ya existe
     IF funcionPeliculaExiste(insertadoIdPelicula) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2700: Pelicula.idPelicula ya existe en la base de datos';
     END IF;
-
-    -- Insertar nueva película
     INSERT INTO Pelicula (idPelicula, titulo, genero, urlPoster, rating, sinopsis)
     VALUES (insertadoIdPelicula, nuevoTitulo, nuevoGenero, nuevoUrlPoster, rating, sinopsis);
 
