@@ -2,6 +2,9 @@ services:
   database:
     container_name: baseTodiPelis
     image: todipelis_base
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/root-password
+      - API_PASSWORD_FILE=/run/secrets/api-password
     build:
       context: ./src/database
       dockerfile: Dockerfile
@@ -11,12 +14,15 @@ services:
       - db_data:/var/lib/mysql
     secrets:
       - root-password
+      - api-password
 
 secrets:
   api-key:
     file: ./src/api/api-key.txt
   root-password:
     file: ./src/database/root-password.txt
+  api-password:
+    file: ./src/database/api-password.txt
 
 volumes:
   db_data:
