@@ -1,5 +1,6 @@
 #!/bin/bash
 
+borrarDatos=$1
 contenedores=("baseTodiPelis")
 imagenes=("todipelis_base")
 volumenes=("folderDatosTodiPelis")
@@ -28,7 +29,15 @@ for volumen in "${volumenes[@]}"; do
     fi
 done
 
-sudo rm -rf ./mariadb_data
+case $borrarDatos in
+borrar)
+    sudo rm -rf ./mariadb_data
+    echo "Datos de la base borrados"
+    ;;
+*)
+    echo "La base de datos se mantendra"
+    ;;
+esac
 
 docker compose build --no-cache &&
     docker compose up
