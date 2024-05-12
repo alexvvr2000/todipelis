@@ -1,10 +1,11 @@
 CREATE DATABASE IF NOT EXISTS todipelis;
-use todopelis;
+USE todipelis;
 
 -- Crear la tabla Usuario
 CREATE TABLE Usuario (
     idUsuario INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    urlFotoPerfil CHAR(255) NULL
+    nombreUsuario VARCHAR(100) NOT NULL,
+    urlFotoPerfil VARCHAR(255) NULL
 );
 
 -- Crear la tabla Pelicula
@@ -39,7 +40,7 @@ CREATE TABLE ListaFavoritos (
     FOREIGN KEY (idPelicula) REFERENCES Pelicula(idPelicula) ON DELETE CASCADE
 );
 
-INSERT INTO Usuario(urlFotoPerfil) VALUES(NULL);
+INSERT INTO Usuario(nombreUsuario) VALUES("Alejandro Valenzuela");
 
 INSERT INTO Pelicula (idPelicula, titulo, genero, urlPoster, rating, sinopsis)
 VALUES
