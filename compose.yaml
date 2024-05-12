@@ -1,5 +1,6 @@
 services:
   database:
+    container_name: basePelis:1.0
     build:
       context: ./src/database
       dockerfile: Dockerfile
