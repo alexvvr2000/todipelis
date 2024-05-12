@@ -3,8 +3,10 @@ services:
     container_name: baseTodiPelis
     image: todipelis_base
     environment:
-      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/root-password
-      - API_PASSWORD_FILE=/run/secrets/api-password
+      - MARIADB_ROOT_PASSWORD_FILE=/run/secrets/root-password
+      - MARIADB_USER=api
+      - MARIADB_PASSWORD_FILE=/run/secrets/api-password
+      - MARIADB_DATABASE=todipelis
     build:
       context: ./src/database
       dockerfile: Dockerfile
