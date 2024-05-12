@@ -1,6 +1,7 @@
 services:
   database:
-    container_name: basePelis:1.0
+    container_name: baseTodiPelis
+    image: todipelis_base
     build:
       context: ./src/database
       dockerfile: Dockerfile
@@ -19,6 +20,7 @@ secrets:
 
 volumes:
   db_data:
+    name: folderDatosTodiPelis
     driver: local
     driver_opts:
       type: none
