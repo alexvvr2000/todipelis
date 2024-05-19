@@ -3,6 +3,5 @@
 tablasBases=("Usuario" "Pelicula" "ListaCriticas" "ListaFavoritos")
 
 for tabla in "${tablasBases[@]}"; do
-    echo "GRANT INSERT, UPDATE, DELETE, SELECT ON todipelis.${tabla} TO 'api'@'%';"
     echo "GRANT EXECUTE ON ${tabla}.* TO 'api'@'%';"
 done
