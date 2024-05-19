@@ -1,7 +1,7 @@
 from flask import Flask, g
 from flask.json.provider import DefaultJSONProvider
 from dataclasses import asdict, is_dataclass
-from ApiTodiPelis.rutas.RutasPelicula import rutas
+from ApiTodiPelis.rutas.RutasPelicula import rutasPeliculaBlueprint
 
 
 class DataclassProveedor(DefaultJSONProvider):
@@ -13,7 +13,7 @@ class DataclassProveedor(DefaultJSONProvider):
 
 app: Flask = Flask(__name__)
 app.json = DataclassProveedor(app)
-app.register_blueprint(rutas)
+app.register_blueprint(rutasPeliculaBlueprint)
 
 
 @app.teardown_appcontext

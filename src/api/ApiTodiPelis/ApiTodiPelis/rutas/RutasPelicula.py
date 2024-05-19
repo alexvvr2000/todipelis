@@ -5,10 +5,10 @@ from ApiTodiPelis.types import Pelicula
 from mariadb import Connection
 from dataclasses import asdict
 
-rutas: Blueprint = Blueprint("rutas", __name__)
+rutasPeliculaBlueprint: Blueprint = Blueprint("rutas", __name__)
 
 
-@rutas.route("/pelicula/<string:idPelicula>", methods=["GET"])
+@rutasPeliculaBlueprint.route("/pelicula/<string:idPelicula>", methods=["GET"])
 def obtenerPeliculaIdBase(idPelicula: str):
     conexion: Connection = obtenerConexion()
     peliculaBase: Pelicula | None = obtenerPelicula(conexion, idPelicula)
@@ -17,7 +17,7 @@ def obtenerPeliculaIdBase(idPelicula: str):
     return jsonify(peliculaBase)
 
 
-@rutas.route("/pelicula", methods=["GET"])
+@rutasPeliculaBlueprint.route("/pelicula", methods=["GET"])
 def obtenerPeliculaTituloBase():
     conexion: Connection = obtenerConexion()
     tituloBuscado: str = request.args.get("titulo")
@@ -27,6 +27,6 @@ def obtenerPeliculaTituloBase():
     return jsonify(peliculaBase)
 
 
-@rutas.errorhandler(404)
+@rutasPeliculaBlueprint.errorhandler(404)
 def peliculaNoEncontrada(error):
     return jsonify(error=str(error)), 404
