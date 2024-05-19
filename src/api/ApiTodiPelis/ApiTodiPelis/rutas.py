@@ -7,7 +7,7 @@ from dataclasses import asdict
 rutas: Blueprint = Blueprint("rutas", __name__)
 
 
-@rutas.route("/<string:idPelicula>", methods=["GET"])
+@rutas.route("/pelicula/<string:idPelicula>", methods=["GET"])
 def ruta(idPelicula: str):
     conexion: Connection = obtenerConexion()
     peliculaBase = obtenerPelicula(conexion, idPelicula)
