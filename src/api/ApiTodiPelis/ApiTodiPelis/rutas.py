@@ -1,5 +1,5 @@
 from flask import Blueprint, abort, jsonify, request
-from ApiTodiPelis.operaciones.select import obtenerPelicula, obtenerPeliculaTitulo
+from ApiTodiPelis.operaciones.Pelicula import obtenerPelicula, obtenerPeliculaTitulo
 from ApiTodiPelis.conexion import obtenerConexion
 from ApiTodiPelis.types import Pelicula
 from mariadb import Connection
