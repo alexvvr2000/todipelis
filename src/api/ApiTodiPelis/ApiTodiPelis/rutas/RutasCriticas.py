@@ -9,8 +9,10 @@ from ApiTodiPelis.operaciones.Criticas import (
 )
 from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula
 from typing import List
-from decimal import Decimal
+from decimal import Decimal, getcontext
 from datetime import date
+
+getcontext().prec = 2
 
 rutasCriticasBlueprint: Blueprint = Blueprint("rutasCritcas", __name__)
 

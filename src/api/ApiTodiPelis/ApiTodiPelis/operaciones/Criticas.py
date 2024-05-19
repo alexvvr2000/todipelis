@@ -6,9 +6,11 @@ from ApiTodiPelis.operaciones.Pelicula import (
     agregarPeliculaBase,
     obtenerPeliculaIdApi,
 )
-from decimal import Decimal
+from decimal import Decimal, getcontext
 from typing import List
 from datetime import datetime
+
+getcontext().prec = 2
 
 
 def existeCriticaBase(conexion: Connection, idPeliculaIdApi: IdUsuarioPelicula) -> bool:
