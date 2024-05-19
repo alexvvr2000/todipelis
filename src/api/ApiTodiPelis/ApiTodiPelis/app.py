@@ -1,14 +1,13 @@
-from flask import Flask
-from ApiTodiPelis.operaciones.select import obtenerPelicula
+from flask import Flask, g
+from ApiTodiPelis.rutas import rutas
 from ApiTodiPelis.conexion import obtenerConexion
-from mariadb import Connection
-from dataclasses import asdict
 
 app: Flask = Flask(__name__)
+app.register_blueprint(rutas)
 
 
-@app.route("/<string:idPelicula>", methods=["GET"])
-def ruta(idPelicula: str):
-    conexion: Connection = obtenerConexion()
-    peliculaBase = obtenerPelicula(conexion, idPelicula)
-    return asdict(peliculaBase)
+@app.teardown_appcontext
+def cerrarBase(e=None):
+    conexion = g.pop("conexion", None)
+    if conexion is not None:
+        conexion.close()
