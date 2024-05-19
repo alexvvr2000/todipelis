@@ -5,7 +5,7 @@ from typing import List
 from datetime import datetime
 
 
-def obtenerCriticas(conexion: Connection) -> List[ListaCriticas]:
+def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
     cursor: Cursor = conexion.cursor()
     cursor.callproc("procedureCriticasUsuario", (1,))
 
