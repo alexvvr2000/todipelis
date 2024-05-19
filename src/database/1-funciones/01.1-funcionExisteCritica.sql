@@ -1,4 +1,4 @@
-use todipelis;
+USE todipelis;
 
 DELIMITER //
 
@@ -6,14 +6,14 @@ CREATE FUNCTION funcionExisteCritica(buscadoIdPelicula VARCHAR(100), buscadoIdUs
 RETURNS BOOLEAN
 NOT DETERMINISTIC
 BEGIN
-    DECLARE existe INT;
+    DECLARE existe BOOLEAN;
 
     SELECT EXISTS(
         SELECT 1 FROM ListaCriticas
         WHERE idUsuario = buscadoIdUsuario AND idPelicula = buscadoIdPelicula
     ) INTO existe;
 
-    RETURN existe
+    RETURN existe;
 END//
 
 DELIMITER ;

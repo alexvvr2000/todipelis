@@ -51,6 +51,8 @@ def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
 def agregarCriticaBase(
     conexion: Connection, criticaNueva: ListaCriticas
 ) -> IdUsuarioPelicula:
+    if not existeCriticaBase(conexion, criticaNueva.idCritica):
+        raise Exception("Usuario ya tiene una critica de la pelicula dada")
     if not existePeliculaApi(criticaNueva.idCritica.idPelicula):
         raise Exception("Pelicula no existe en base")
     if not existePeliculaBase(conexion, criticaNueva.idCritica.idPelicula):
