@@ -4,7 +4,7 @@ DELIMITER //
 
 CREATE PROCEDURE procedureBorrarCritica(
     IN borradoIdUsuario INT,
-    IN borradoIdPelicula INT
+    IN borradoIdPelicula VARCHAR(100)
 )
 BEGIN
     DECLARE pelicula_existe BOOLEAN;
