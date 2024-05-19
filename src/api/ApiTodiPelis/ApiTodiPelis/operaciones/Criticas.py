@@ -76,7 +76,7 @@ def agregarCriticaBase(
     return criticaNueva.idCritica
 
 
-def borrarCritica(conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula):
+def borrarCriticaBase(conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula):
     if not existeCriticaBase(conexion, idUsuarioPelicula):
         raise Exception("Critica no existe en base")
     cursor: Cursor = conexion.cursor()

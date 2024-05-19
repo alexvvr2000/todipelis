@@ -2,7 +2,11 @@ from flask import Blueprint, jsonify, request
 from markupsafe import escape
 from mariadb import Connection
 from ApiTodiPelis.conexion import obtenerConexion
-from ApiTodiPelis.operaciones.Criticas import obtenerCriticasBase, agregarCriticaBase
+from ApiTodiPelis.operaciones.Criticas import (
+    obtenerCriticasBase,
+    agregarCriticaBase,
+    borrarCriticaBase,
+)
 from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula
 from typing import List
 from decimal import Decimal
@@ -32,3 +36,13 @@ def agregarCritica():
     )
     criticaBase: IdUsuarioPelicula = agregarCriticaBase(conexion, nuevaCritica)
     return jsonify(criticaBase)
+
+
+@rutasCriticasBlueprint.route("/1/criticas", methods=["DELETE"])
+def borrarCritica():
+    conexion: Connection = obtenerConexion()
+    peliculaBorrada: str = request.args.get("idPelicula")
+    idCriticaBorrada: str = borrarCriticaBase(
+        conexion, IdUsuarioPelicula(1, peliculaBorrada)
+    )
+    return jsonify(idCriticaBorrada)
