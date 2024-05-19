@@ -1,9 +1,14 @@
 from flask import Flask
-from flask import json
+from ApiTodiPelis.operaciones.select import obtenerPelicula
+from ApiTodiPelis.operaciones.conexion import obtenerConexion
+from mariadb import Connection
+from dataclasses import asdict
 
 app: Flask = Flask(__name__)
 
 
-@app.route("/", methods=["GET"])
-def ruta():
-    return {"hola": "universo 7"}
+@app.route("/<string:idPelicula>", methods=["GET"])
+def ruta(idPelicula: str):
+    conexion: Connection = obtenerConexion()
+    peliculaBase = obtenerPelicula(conexion, idPelicula)
+    return asdict(peliculaBase)
