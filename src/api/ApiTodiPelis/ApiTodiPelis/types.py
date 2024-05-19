@@ -30,3 +30,9 @@ class ListaCriticas:
     estrellas: Decimal
     fechaAgregado: date
     fechaModificado: datetime | None
+
+
+@dataclass(frozen=True)
+class ListaFavoritos:
+    idUsuario: int
+    idPelicula: str
