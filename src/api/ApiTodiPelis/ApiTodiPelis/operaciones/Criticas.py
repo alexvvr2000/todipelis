@@ -74,3 +74,16 @@ def agregarCriticaBase(
     cursor.close()
     conexion.commit()
     return criticaNueva.idCritica
+
+
+def borrarCritica(conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula):
+    if not existeCriticaBase(conexion, idUsuarioPelicula):
+        raise Exception("Critica no existe en base")
+    cursor: Cursor = conexion.cursor()
+    cursor.callproc(
+        "procedureBorrarCritica",
+        [idUsuarioPelicula.idUsuario, idUsuarioPelicula.idPelicula],
+    )
+    cursor.close()
+    conexion.commit()
+    return idUsuarioPelicula
