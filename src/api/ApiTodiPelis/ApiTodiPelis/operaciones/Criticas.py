@@ -13,6 +13,10 @@ from datetime import datetime
 getcontext().prec = 2
 
 
+def estrellasValidas(estrellas: Decimal) -> bool:
+    return Decimal("0.0") <= estrellas and estrellas <= Decimal("5.0")
+
+
 def existeCriticaBase(conexion: Connection, idPeliculaIdApi: IdUsuarioPelicula) -> bool:
     cursor: Cursor = conexion.cursor()
     cursor.execute(
