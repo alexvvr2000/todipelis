@@ -1,5 +1,11 @@
 from mariadb import Connection, Cursor
-from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula
+from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula, Pelicula
+from ApiTodiPelis.operaciones.Pelicula import (
+    existePeliculaApi,
+    existePeliculaBase,
+    agregarPeliculaBase,
+    obtenerPeliculaIdApi,
+)
 from decimal import Decimal
 from typing import List
 from datetime import datetime
@@ -35,4 +41,24 @@ def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
 def agregarCriticaBase(
     conexion: Connection, criticaNueva: ListaCriticas
 ) -> IdUsuarioPelicula:
-    return IdUsuarioPelicula(1, 1)
+    if not existePeliculaApi(criticaNueva.idCritica.idPelicula):
+        raise Exception("Pelicula no existe en base")
+    if not existePeliculaBase(conexion, criticaNueva.idCritica.idPelicula):
+        peliculaNueva: Pelicula = obtenerPeliculaIdApi(
+            criticaNueva.idCritica.idPelicula
+        )
+        agregarPeliculaBase(conexion, peliculaNueva)
+
+    cursor: Cursor = conexion.cursor()
+    cursor.callproc(
+        "procedureInsertCritica",
+        [
+            criticaNueva.idCritica.idUsuario,
+            criticaNueva.idCritica.idPelicula,
+            criticaNueva.descripcion,
+            criticaNueva.estrellas,
+        ],
+    )
+    cursor.close()
+    conexion.commit()
+    return criticaNueva.idCritica
