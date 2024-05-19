@@ -14,7 +14,7 @@ def obtenerPeliculaIdBase(idPelicula: str):
     peliculaBase: Pelicula | None = obtenerPelicula(conexion, idPelicula)
     if peliculaBase is None:
         abort(404, description="Pelicula no existe en base")
-    return asdict(peliculaBase)
+    return jsonify(peliculaBase)
 
 
 @rutas.route("/pelicula", methods=["GET"])
@@ -24,7 +24,7 @@ def obtenerPeliculaTituloBase():
     peliculaBase: Pelicula | None = obtenerPeliculaTitulo(conexion, tituloBuscado)
     if peliculaBase is None:
         abort(404, description="Pelicula no existe en base")
-    return asdict(peliculaBase)
+    return jsonify(peliculaBase)
 
 
 @rutas.errorhandler(404)
