@@ -1,8 +1,14 @@
 from dataclasses import dataclass
 from decimal import Decimal, getcontext
 from datetime import date, datetime
+from typing import TypedDict
 
 getcontext().prec = 2
+
+
+class idUsuarioPelicula(TypedDict):
+    idUsuario: int
+    idPelicula: str
 
 
 @dataclass(frozen=True)
