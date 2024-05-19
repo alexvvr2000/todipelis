@@ -6,7 +6,7 @@ from typing import TypedDict
 getcontext().prec = 2
 
 
-class idUsuarioPelicula(TypedDict):
+class IdUsuarioPelicula(TypedDict):
     idUsuario: int
     idPelicula: str
 
