@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 from markupsafe import escape
 from mariadb import Connection
 from ApiTodiPelis.conexion import obtenerConexion
@@ -46,3 +46,16 @@ def borrarCritica():
         conexion, IdUsuarioPelicula(1, peliculaBorrada)
     )
     return jsonify(idCriticaBorrada)
+
+
+@rutasCriticasBlueprint.route("/1/criticas", methods=["PUT"])
+def actualizarCritica():
+    valorActualizableUsuario: str = request.args.get("campo")
+
+    match valorActualizableUsuario:
+        case "descripcion":
+            descripcionNueva: str = request.args.get("descripcionNueva")
+        case "estrellas":
+            estrellasNuevas: str = request.args.get("estrellasNuevas")
+        case _:
+            abort(500)
