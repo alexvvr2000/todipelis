@@ -1,6 +1,6 @@
 from mariadb import Connection, Cursor
 from ApiTodiPelis.types import ListaFavoritos, IdUsuarioPelicula
-from typing import List, Tuple
+from typing import List
 
 
 def cantidadFavoritosUsuario(conexion: Connection) -> int:
