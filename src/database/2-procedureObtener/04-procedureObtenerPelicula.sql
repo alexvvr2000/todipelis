@@ -12,7 +12,7 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 200: Pelicula.idPelicula no existe';
     END IF;
 
-    SELECT titulo, genero, urlPoster, rating
+    SELECT titulo, genero, urlPoster, rating, sinopsis
     FROM Pelicula
     WHERE idPelicula = idPeliculaBuscada;
 END//
