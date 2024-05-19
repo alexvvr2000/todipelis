@@ -1,6 +1,6 @@
 from mariadb import Connection, Cursor
 from ApiTodiPelis.types import Pelicula
-from ApiTodiPelis.conexion import existePeliculaBase, obtenerConexion
+from ApiTodiPelis.conexion import existePeliculaBase
 from flask import g
 
 

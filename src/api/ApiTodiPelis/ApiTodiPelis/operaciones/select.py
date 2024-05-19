@@ -4,7 +4,7 @@ from requests import get, Response
 from get_docker_secret import get_docker_secret
 from mariadb import Connection, Cursor
 from ApiTodiPelis.operaciones.insert import agregarPeliculaBase
-from ApiTodiPelis.conexion import existePeliculaBase, obtenerConexion
+from ApiTodiPelis.conexion import existePeliculaBase
 from ApiTodiPelis.types import (
     Pelicula,
     ListaCriticas,
