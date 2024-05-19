@@ -3,12 +3,12 @@ from mariadb import connect, Connection, Cursor
 from flask import g
 
 
-def existePeliculaBase(idPelicula: str) -> bool:
-    cursor: Cursor = obtenerConexion().cursor()
+def existePeliculaBase(conexion: Connection, idPelicula: str) -> bool:
+    cursor: Cursor = conexion.cursor()
     cursor.execute("select funcionPeliculaExiste(?) as existe", (idPelicula,))
     filaRetornada = cursor.fetchone()
-    peliculaExiste: bool = filaRetornada[0] == 1
     cursor.close()
+    peliculaExiste: bool = filaRetornada[0] == 1
     return peliculaExiste
 
 

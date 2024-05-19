@@ -13,10 +13,9 @@ from ApiTodiPelis.types import (
 )
 
 
-def obtenerPelicula(idPelicula: str) -> Pelicula | None:
+def obtenerPelicula(conexion: Connection, idPelicula: str) -> Pelicula | None:
     peliculaBase: Pelicula | None
-    conexion: Connection = obtenerConexion()
-    if existePeliculaBase(idPelicula):
+    if existePeliculaBase(conexion, idPelicula):
         cursor: Cursor = conexion.cursor()
         cursor.callproc("procedureObtenerPelicula", (idPelicula,))
         filaRetornada = cursor.fetchone()
@@ -50,5 +49,5 @@ def obtenerPelicula(idPelicula: str) -> Pelicula | None:
             rating=datosPeliculas.get("imdbRating"),
             sinopsis=datosPeliculas.get("Plot"),
         )
-        agregarPeliculaBase(peliculaBase)
+        agregarPeliculaBase(conexion, peliculaBase)
     return peliculaBase
