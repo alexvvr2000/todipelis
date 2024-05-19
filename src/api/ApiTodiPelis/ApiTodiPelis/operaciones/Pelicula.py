@@ -3,8 +3,16 @@ from flask import g
 from requests import get, Response
 from get_docker_secret import get_docker_secret
 from mariadb import Connection, Cursor
-from ApiTodiPelis.conexion import existePeliculaBase
 from ApiTodiPelis.types import Pelicula
+
+
+def existePeliculaBase(conexion: Connection, idPelicula: str) -> bool:
+    cursor: Cursor = conexion.cursor()
+    cursor.execute("select funcionPeliculaExiste(?) as existe", (idPelicula,))
+    filaRetornada = cursor.fetchone()
+    cursor.close()
+    peliculaExiste: bool = filaRetornada[0] == 1
+    return peliculaExiste
 
 
 def agregarPeliculaBase(conexion: Connection, pelicula: Pelicula) -> str:
