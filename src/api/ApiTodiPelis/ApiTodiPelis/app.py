@@ -4,6 +4,7 @@ from dataclasses import asdict, is_dataclass
 from ApiTodiPelis.rutas.RutasPelicula import rutasPeliculaBlueprint
 from ApiTodiPelis.rutas.RutasFavoritos import rutasFavoritosBlueprint
 from ApiTodiPelis.rutas.RutasCriticas import rutasCriticasBlueprint
+from ApiTodiPelis.rutas.RutasUsuario import rutasUsuarioBlueprint
 
 
 class DataclassProveedor(DefaultJSONProvider):
@@ -18,6 +19,7 @@ app.json = DataclassProveedor(app)
 app.register_blueprint(rutasPeliculaBlueprint)
 app.register_blueprint(rutasFavoritosBlueprint)
 app.register_blueprint(rutasCriticasBlueprint)
+app.register_blueprint(rutasUsuarioBlueprint)
 
 
 @app.teardown_appcontext
