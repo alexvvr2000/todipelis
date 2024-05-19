@@ -13,3 +13,11 @@ def existeUsuario(conexion: Connection, idUsuario: int) -> bool:
     filaRetornada = cursor.fetchone()
     usuarioExiste: bool = filaRetornada[0] == 1
     return usuarioExiste
+
+
+def existePelicula(conexion: Connection, idPelicula: str) -> bool:
+    cursor: Cursor = conexion.cursor()
+    cursor.execute("select funcionPeliculaExiste(?), as existe", (idPelicula,))
+    filaRetornada = cursor.fetchone()
+    peliculaExiste: bool = filaRetornada[0] == 1
+    return peliculaExiste
