@@ -1,6 +1,5 @@
 from flask import Flask, g
 from ApiTodiPelis.rutas import rutas
-from ApiTodiPelis.conexion import obtenerConexion
 
 app: Flask = Flask(__name__)
 app.register_blueprint(rutas)
