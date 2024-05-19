@@ -18,7 +18,7 @@ def existeCriticaBase(conexion: Connection, idPeliculaIdApi: IdUsuarioPelicula) 
         [idPeliculaIdApi.idPelicula, idPeliculaIdApi.idUsuario],
     )
     filaRetornada = cursor.fetchone()
-    return filaRetornada == 1
+    return filaRetornada[0] == 1
 
 
 def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
@@ -51,7 +51,7 @@ def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
 def agregarCriticaBase(
     conexion: Connection, criticaNueva: ListaCriticas
 ) -> IdUsuarioPelicula:
-    if not existeCriticaBase(conexion, criticaNueva.idCritica):
+    if existeCriticaBase(conexion, criticaNueva.idCritica):
         raise Exception("Usuario ya tiene una critica de la pelicula dada")
     if not existePeliculaApi(criticaNueva.idCritica.idPelicula):
         raise Exception("Pelicula no existe en base")
