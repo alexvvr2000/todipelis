@@ -1,9 +1,11 @@
 from flask import Blueprint, jsonify
 from mariadb import Connection
 from ApiTodiPelis.conexion import obtenerConexion
-from ApiTodiPelis.operaciones.Criticas import obtenerCriticasBase
-from ApiTodiPelis.types import ListaCriticas
+from ApiTodiPelis.operaciones.Criticas import obtenerCriticasBase, agregarCriticaBase
+from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula
 from typing import List
+from decimal import Decimal
+from datetime import date
 
 rutasCriticasBlueprint: Blueprint = Blueprint("rutasCritcas", __name__)
 
@@ -15,3 +17,16 @@ def obtenerCriticas():
     return jsonify(
         {"cantidadCriticas": len(criticasBase), "criticasUsuario": criticasBase}
     )
+
+
+@rutasCriticasBlueprint.route("/1/criticas", methods=["POST"])
+def agregarCritica():
+    conexion: Connection = obtenerConexion()
+    nuevaCritica: ListaCriticas = ListaCriticas(
+        idCritica=IdUsuarioPelicula(1, 1),
+        descripcion="",
+        estrellas=Decimal(""),
+        fechaAgregado=date.today(),
+        fechaModificado=None,
+    )
+    criticaBase: IdUsuarioPelicula = agregarCriticaBase(conexion, nuevaCritica)

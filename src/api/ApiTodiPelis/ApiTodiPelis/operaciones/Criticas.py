@@ -30,3 +30,9 @@ def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
         )
         criticaActual = cursor.fetchone()
     return valoresBase
+
+
+def agregarCriticaBase(
+    conexion: Connection, criticaNueva: ListaCriticas
+) -> IdUsuarioPelicula:
+    return IdUsuarioPelicula(1, 1)
