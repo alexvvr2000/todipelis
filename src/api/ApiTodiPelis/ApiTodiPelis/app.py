@@ -3,6 +3,7 @@ from flask.json.provider import DefaultJSONProvider
 from dataclasses import asdict, is_dataclass
 from ApiTodiPelis.rutas.RutasPelicula import rutasPeliculaBlueprint
 from ApiTodiPelis.rutas.RutasFavoritos import rutasFavoritosBlueprint
+from ApiTodiPelis.rutas.RutasCriticas import rutasCriticasBlueprint
 
 
 class DataclassProveedor(DefaultJSONProvider):
@@ -16,6 +17,7 @@ app: Flask = Flask(__name__)
 app.json = DataclassProveedor(app)
 app.register_blueprint(rutasPeliculaBlueprint)
 app.register_blueprint(rutasFavoritosBlueprint)
+app.register_blueprint(rutasCriticasBlueprint)
 
 
 @app.teardown_appcontext
