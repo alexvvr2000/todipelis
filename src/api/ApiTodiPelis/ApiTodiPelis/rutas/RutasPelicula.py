@@ -5,7 +5,7 @@ from ApiTodiPelis.types import Pelicula
 from mariadb import Connection
 from dataclasses import asdict
 
-rutasPeliculaBlueprint: Blueprint = Blueprint("rutasFavoritos", __name__)
+rutasPeliculaBlueprint: Blueprint = Blueprint("rutasPelicula", __name__)
 
 
 @rutasPeliculaBlueprint.route("/pelicula/<string:idPelicula>", methods=["GET"])
