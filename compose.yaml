@@ -32,7 +32,7 @@ services:
     ports:
       - "127.0.0.1:5000:5000"
     volumes:
-      - ./src/api/ApiTodiPelis/ApiTodiPelis:/ApiTodiPelis/ApiTodiPelis
+      - api_source_code:/ApiTodiPelis/ApiTodiPelis
     secrets:
       - api-key
       - api-password
@@ -50,6 +50,13 @@ secrets:
     file: ./src/database/api-password.txt
 
 volumes:
+  api_source_code:
+    name: folderCodigoApi
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./src/api/ApiTodiPelis/ApiTodiPelis
   db_data:
     name: folderDatosTodiPelis
     driver: local
