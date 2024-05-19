@@ -11,6 +11,16 @@ from typing import List
 from datetime import datetime
 
 
+def existeCriticaBase(conexion: Connection, idPeliculaIdApi: IdUsuarioPelicula) -> bool:
+    cursor: Cursor = conexion.cursor()
+    cursor.execute(
+        "select funcionExisteCritica(?,?) as existe",
+        [idPeliculaIdApi.idPelicula, idPeliculaIdApi.idUsuario],
+    )
+    filaRetornada = cursor.fetchone()
+    return filaRetornada == 1
+
+
 def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
     cursor: Cursor = conexion.cursor()
     cursor.callproc("procedureCriticasUsuario", (1,))
