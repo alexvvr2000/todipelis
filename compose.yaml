@@ -31,6 +31,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "127.0.0.1:5000:5000"
+    volumes:
+      - ./src/api/ApiTodiPelis/ApiTodiPelis:/ApiTodiPelis/ApiTodiPelis
     secrets:
       - api-key
       - api-password
