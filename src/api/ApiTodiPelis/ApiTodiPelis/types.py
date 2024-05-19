@@ -14,7 +14,7 @@ class Usuario:
 
 @dataclass(frozen=True)
 class Pelicula:
-    idPelicula: int
+    idPelicula: str
     titulo: str
     genero: str
     urlPoster: str
