@@ -1,8 +1,7 @@
 from flask import Flask, g
 from flask.json.provider import DefaultJSONProvider
 from dataclasses import asdict, is_dataclass
-from json import JSONEncoder
-from ApiTodiPelis.rutas import rutas
+from ApiTodiPelis.rutas.RutasPelicula import rutas
 
 
 class DataclassProveedor(DefaultJSONProvider):
