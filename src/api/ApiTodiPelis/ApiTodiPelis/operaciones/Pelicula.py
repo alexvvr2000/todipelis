@@ -15,6 +15,16 @@ def existePeliculaBase(conexion: Connection, idPelicula: str) -> bool:
     return peliculaExiste
 
 
+def existePeliculaApi(idPelicula: str) -> bool:
+    urlBase: str = "http://www.omdbapi.com/"
+    parametros: Dict[str, str] = {
+        "apikey": get_docker_secret("api-key"),
+        "i": idPelicula,
+    }
+    respuesta: Response = get(urlBase, params=parametros)
+    return respuesta.status_code == 200
+
+
 def agregarPeliculaBase(conexion: Connection, pelicula: Pelicula) -> str:
     if existePeliculaBase(conexion, pelicula.idPelicula):
         raise Exception(f"Pelicula con id {pelicula.idPelicula} ya esta en base")
