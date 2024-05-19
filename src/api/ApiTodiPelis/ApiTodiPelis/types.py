@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from decimal import Decimal, getcontext
 from datetime import date, datetime
-from typing import TypedDict
 
 getcontext().prec = 2
 
 
-class IdUsuarioPelicula(TypedDict):
+@dataclass(frozen=True)
+class IdUsuarioPelicula:
     idUsuario: int
     idPelicula: str
 
@@ -30,8 +30,7 @@ class Pelicula:
 
 @dataclass(frozen=True)
 class ListaCriticas:
-    idUsuario: int
-    idPelicula: str
+    idCritica: IdUsuarioPelicula
     descripcion: str | None
     estrellas: Decimal
     fechaAgregado: date
@@ -40,5 +39,4 @@ class ListaCriticas:
 
 @dataclass(frozen=True)
 class ListaFavoritos:
-    idUsuario: int
-    idPelicula: str
+    idFavorito = IdUsuarioPelicula
