@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
+from markupsafe import escape
 from mariadb import Connection
 from ApiTodiPelis.conexion import obtenerConexion
 from ApiTodiPelis.operaciones.Criticas import obtenerCriticasBase, agregarCriticaBase
@@ -23,10 +24,11 @@ def obtenerCriticas():
 def agregarCritica():
     conexion: Connection = obtenerConexion()
     nuevaCritica: ListaCriticas = ListaCriticas(
-        idCritica=IdUsuarioPelicula(1, 1),
-        descripcion="",
-        estrellas=Decimal(""),
+        idCritica=IdUsuarioPelicula(1, request.args.get("idPelicula")),
+        descripcion=request.args.get("descripcion"),
+        estrellas=Decimal(request.args.get("estrellas")),
         fechaAgregado=date.today(),
         fechaModificado=None,
     )
     criticaBase: IdUsuarioPelicula = agregarCriticaBase(conexion, nuevaCritica)
+    return jsonify(criticaBase)
