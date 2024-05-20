@@ -8,5 +8,7 @@ COPY ./ApiTodiPelis/requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 RUN apt-get update && apt-get install -y mariadb-client
 
+COPY ./ApiTodiPelis/ApiTodiPelis ./ApiTodiPelis
+
 RUN pip install .
 CMD ["flask", "run", "-h", "0.0.0.0"]
