@@ -5,7 +5,7 @@ from typing import List
 
 def cantidadFavoritosUsuario(conexion: Connection) -> int:
     cursor: Cursor = conexion.cursor()
-    cursor.execute("SELECT funcionCantidadFavoritosUsuario(1) as cantidad")
+    cursor.execute("SELECT funcionCantidadFavoritosUsuario(?) as cantidad", [1])
     valorRetornado = cursor.fetchone()
     return int(valorRetornado[0])
 
