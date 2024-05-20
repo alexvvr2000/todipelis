@@ -7,15 +7,13 @@ from ApiTodiPelis.types import (
 from ApiTodiPelis.operaciones.Pelicula import (
     existePeliculaBase,
     existePeliculaApi,
-    obtenerPelicula,
     agregarPeliculaBase,
+    obtenerPeliculaIdApi,
 )
 from typing import List
 
 
 def peliculaEnFavoritos(conexion: Connection, idPelicula: str) -> bool:
-    if not existePeliculaBase(conexion, idPelicula):
-        raise Exception("Pelicula no existe en base")
     cursor: Cursor = conexion.cursor()
     cursor.execute("SELECT funcionEstaEnFavoritos(?, ?) as existe", [idPelicula, 1])
     filaRetornada = cursor.fetchone()
@@ -45,13 +43,18 @@ def obtenerFavoritos(conexion: Connection) -> List[ListaFavoritos]:
 
 
 def agregarFavoritoBase(conexion: Connection, idPelicula: str) -> IdUsuarioPelicula:
-    if not existePeliculaApi(conexion, idPelicula):
+    if cantidadFavoritosUsuario(conexion) == 5:
+        raise Exception("Ya se llego al limite de favoritos en usuario")
+    if peliculaEnFavoritos(conexion, idPelicula):
+        raise Exception("Pelicula ya esta incluida en favoritos de usuario")
+    if not existePeliculaApi(idPelicula):
         raise Exception("Pelicula no existe en base")
     if not existePeliculaBase(conexion, idPelicula):
-        peliculaNueva: Pelicula = obtenerPelicula(conexion, idPelicula)
-        agregarPeliculaBase(peliculaNueva)
+        peliculaNueva: Pelicula = obtenerPeliculaIdApi(conexion, idPelicula)
+        agregarPeliculaBase(conexion, peliculaNueva)
     cursor: Cursor = conexion.cursor()
     cursor.callproc("procedureInsertFavoritoUsuario", [1, idPelicula])
     filaRetornada = cursor.fetchone()
     cursor.close()
+    conexion.commit()
     return IdUsuarioPelicula(filaRetornada[0], filaRetornada[1])
