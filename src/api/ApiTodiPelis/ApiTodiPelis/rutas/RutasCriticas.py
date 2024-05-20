@@ -9,6 +9,7 @@ from ApiTodiPelis.operaciones.Criticas import (
     estrellasValidas,
     actualizarEstrellasBase,
     actualizarDescripcionCriticaBase,
+    obtenerCriticaUsuarioBase,
 )
 from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula
 from typing import List
@@ -27,6 +28,15 @@ def obtenerCriticas():
     return jsonify(
         {"cantidadCriticas": len(criticasBase), "criticasUsuario": criticasBase}
     )
+
+
+@rutasCriticasBlueprint.route("/1/criticas/<string:idPelicula>", methods=["GET"])
+def obtenerCriticaUsuario(idPelicula: str):
+    conexion: Connection = obtenerConexion()
+    criticaBase: ListaCriticas = obtenerCriticaUsuarioBase(
+        conexion, IdUsuarioPelicula(1, idPelicula)
+    )
+    return jsonify(criticaBase)
 
 
 @rutasCriticasBlueprint.route("/1/criticas", methods=["POST"])

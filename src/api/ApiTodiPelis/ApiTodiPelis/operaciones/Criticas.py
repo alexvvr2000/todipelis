@@ -27,6 +27,32 @@ def existeCriticaBase(conexion: Connection, idPeliculaIdApi: IdUsuarioPelicula) 
     return filaRetornada[0] == 1
 
 
+def obtenerCriticaUsuarioBase(
+    conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
+) -> ListaCriticas:
+    if not existeCriticaBase(conexion, idUsuarioPelicula):
+        raise Exception("Critica no existe en base")
+    cursor: Cursor = conexion.cursor()
+    cursor.callproc(
+        "procedureObtenerCriticaUsuario",
+        [idUsuarioPelicula.idPelicula, idUsuarioPelicula.idUsuario],
+    )
+    filaRetornada = cursor.fetchone()
+    cursor.close()
+    if filaRetornada is None:
+        return None
+    fechaModificado: datetime | None = None
+    if filaRetornada[4] is not None:
+        fechaModificado = datetime.strptime(str(filaRetornada[3]), "%Y-%m-%d %H:%M:%S")
+    return ListaCriticas(
+        idUsuarioPelicula,
+        descripcion=filaRetornada[0],
+        estrellas=filaRetornada[1],
+        fechaAgregado=datetime.strptime(str(filaRetornada[2]), "%Y-%m-%d").date(),
+        fechaModificado=fechaModificado,
+    )
+
+
 def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
     cursor: Cursor = conexion.cursor()
     cursor.callproc("procedureCriticasUsuario", (1,))
