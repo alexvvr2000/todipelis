@@ -21,7 +21,7 @@ getcontext().prec = 2
 rutasCriticasBlueprint: Blueprint = Blueprint("rutasCritcas", __name__)
 
 
-@rutasCriticasBlueprint.route("/1/criticas/", methods=["GET"])
+@rutasCriticasBlueprint.route("/criticas/", methods=["GET"])
 def obtenerCriticas():
     conexion: Connection = obtenerConexion()
     criticasBase: List[ListaCriticas] = obtenerCriticasBase(conexion)
@@ -30,7 +30,7 @@ def obtenerCriticas():
     )
 
 
-@rutasCriticasBlueprint.route("/1/criticas/<string:idPelicula>", methods=["GET"])
+@rutasCriticasBlueprint.route("/criticas/<string:idPelicula>", methods=["GET"])
 def obtenerCriticaUsuario(idPelicula: str):
     conexion: Connection = obtenerConexion()
     criticaBase: ListaCriticas = obtenerCriticaUsuarioBase(
@@ -39,7 +39,7 @@ def obtenerCriticaUsuario(idPelicula: str):
     return jsonify(criticaBase)
 
 
-@rutasCriticasBlueprint.route("/1/criticas", methods=["POST"])
+@rutasCriticasBlueprint.route("/criticas", methods=["POST"])
 def agregarCritica():
     conexion: Connection = obtenerConexion()
     nuevaCritica: ListaCriticas = ListaCriticas(
@@ -53,7 +53,7 @@ def agregarCritica():
     return jsonify(criticaBase)
 
 
-@rutasCriticasBlueprint.route("/1/criticas", methods=["DELETE"])
+@rutasCriticasBlueprint.route("/criticas", methods=["DELETE"])
 def borrarCritica():
     conexion: Connection = obtenerConexion()
     peliculaBorrada: str = request.args.get("idPelicula")
@@ -63,7 +63,7 @@ def borrarCritica():
     return jsonify(idCriticaBorrada)
 
 
-@rutasCriticasBlueprint.route("/1/criticas/<string:idPelicula>", methods=["PUT"])
+@rutasCriticasBlueprint.route("/criticas/<string:idPelicula>", methods=["PUT"])
 def actualizarCritica(idPelicula: str):
     nuevasEstrellas: Decimal = Decimal(request.args.get("estrellas", "-1.0", type=str))
     nuevaDescripcion: str = request.args.get("descripcion", "", type=str)

@@ -12,7 +12,7 @@ from typing import List
 rutasFavoritosBlueprint: Blueprint = Blueprint("rutasFavoritos", __name__)
 
 
-@rutasFavoritosBlueprint.route("/1/favoritos/", methods=["GET"])
+@rutasFavoritosBlueprint.route("/favoritos/", methods=["GET"])
 def obtenerFavoritosUsuario():
     conexion: Connection = obtenerConexion()
     favoritosUsuario: List[ListaFavoritos] = obtenerFavoritos(conexion)
@@ -24,7 +24,7 @@ def obtenerFavoritosUsuario():
     )
 
 
-@rutasFavoritosBlueprint.route("/1/favoritos", methods=["POST"])
+@rutasFavoritosBlueprint.route("/favoritos", methods=["POST"])
 def agregarFavoritoUsuario():
     conexion: Connection = obtenerConexion()
     idPeliculaAgregada: str = request.args.get("idPelicula", "", type=str)
@@ -41,7 +41,7 @@ def agregarFavoritoUsuario():
     )
 
 
-@rutasFavoritosBlueprint.route("/1/favoritos", methods=["DELETE"])
+@rutasFavoritosBlueprint.route("/favoritos", methods=["DELETE"])
 def borrarFavoritoUsuario():
     conexion: Connection = obtenerConexion()
     idPeliculaBorrada: str = request.args.get("idPelicula", "", type=str)

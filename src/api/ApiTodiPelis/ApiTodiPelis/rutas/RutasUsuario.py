@@ -7,7 +7,7 @@ from mariadb import Connection
 rutasUsuarioBlueprint: Blueprint = Blueprint("rutasUsuario", __name__)
 
 
-@rutasUsuarioBlueprint.route("/1", methods=["GET"])
+@rutasUsuarioBlueprint.route("/", methods=["GET"])
 def obtenerDatosUsuario():
     conexion: Connection = obtenerConexion()
     usuarioBase: Usuario = obtenerDatosUsuarioBase(conexion)
