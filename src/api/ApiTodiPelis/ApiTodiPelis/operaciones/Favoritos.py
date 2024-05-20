@@ -50,7 +50,7 @@ def agregarFavoritoBase(conexion: Connection, idPelicula: str) -> IdUsuarioPelic
     if not existePeliculaApi(idPelicula):
         raise Exception("Pelicula no existe en base")
     if not existePeliculaBase(conexion, idPelicula):
-        peliculaNueva: Pelicula = obtenerPeliculaIdApi(conexion, idPelicula)
+        peliculaNueva: Pelicula = obtenerPeliculaIdApi(idPelicula)
         agregarPeliculaBase(conexion, peliculaNueva)
     cursor: Cursor = conexion.cursor()
     cursor.callproc("procedureInsertFavoritoUsuario", [1, idPelicula])
@@ -63,7 +63,7 @@ def agregarFavoritoBase(conexion: Connection, idPelicula: str) -> IdUsuarioPelic
 def borrarFavoritoBase(
     conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
 ) -> IdUsuarioPelicula:
-    if not existePeliculaBase(conexion):
+    if not existePeliculaBase(conexion, idUsuarioPelicula.idPelicula):
         raise Exception("Pelicula no existe en base")
     cursor: Cursor = conexion.cursor()
     cursor.callproc(
@@ -72,4 +72,5 @@ def borrarFavoritoBase(
     )
     filaRetornada = cursor.fetchone()
     cursor.close()
+    conexion.commit()
     return IdUsuarioPelicula(filaRetornada[0], filaRetornada[1])
