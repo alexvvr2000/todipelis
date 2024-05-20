@@ -6,6 +6,7 @@ from ApiTodiPelis.operaciones.Criticas import (
     obtenerCriticasBase,
     agregarCriticaBase,
     borrarCriticaBase,
+    estrellasValidas,
 )
 from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula
 from typing import List
@@ -50,14 +51,13 @@ def borrarCritica():
     return jsonify(idCriticaBorrada)
 
 
-@rutasCriticasBlueprint.route("/1/criticas", methods=["PUT"])
-def actualizarCritica():
-    valorActualizableUsuario: str = request.args.get("campo")
-
-    match valorActualizableUsuario:
-        case "descripcion":
-            descripcionNueva: str = request.args.get("descripcionNueva")
-        case "estrellas":
-            estrellasNuevas: str = request.args.get("estrellasNuevas")
-        case _:
-            abort(500)
+@rutasCriticasBlueprint.route("/1/criticas/<string:idPelicula>", methods=["PUT"])
+def actualizarCritica(idPelicula: str):
+    nuevasEstrellas: Decimal = Decimal(request.args.get("estrellas", "-1.0", type=str))
+    nuevaDescripcion: str = request.args.get("descripcion", "", type=str)
+    if not estrellasValidas(nuevasEstrellas):
+        raise Exception("Estrellas deben estar entre 0 y 5")
+    if (not nuevasEstrellas == Decimal("-1.0")) and estrellasValidas(nuevasEstrellas):
+        pass
+    if not nuevaDescripcion == "":
+        pass
