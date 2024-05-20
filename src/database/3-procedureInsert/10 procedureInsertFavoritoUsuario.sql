@@ -23,7 +23,7 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 4400: Usuario ha alcanzado el límite de películas favoritas';
     END IF;
     INSERT INTO ListaFavoritos (idUsuario, idPelicula) VALUES (insertadoIdUsuario, insertadoIdPelicula);
-    SELECT insertadoIdPelicula, insertadoIdPelicula;
+    SELECT insertadoIdUsuario, insertadoIdPelicula;
 END//
 
 DELIMITER ;
