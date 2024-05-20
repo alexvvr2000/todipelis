@@ -5,6 +5,7 @@ from ApiTodiPelis.rutas.RutasPelicula import rutasPeliculaBlueprint
 from ApiTodiPelis.rutas.RutasFavoritos import rutasFavoritosBlueprint
 from ApiTodiPelis.rutas.RutasCriticas import rutasCriticasBlueprint
 from ApiTodiPelis.rutas.RutasUsuario import rutasUsuarioBlueprint
+from get_docker_secret import get_docker_secret
 
 
 class DataclassProveedor(DefaultJSONProvider):
@@ -15,7 +16,10 @@ class DataclassProveedor(DefaultJSONProvider):
 
 
 app: Flask = Flask(__name__)
+
 app.json = DataclassProveedor(app)
+app.config["JWT_SECRET_KEY"] = get_docker_secret("jwt-key")
+
 app.register_blueprint(rutasPeliculaBlueprint)
 app.register_blueprint(rutasFavoritosBlueprint)
 app.register_blueprint(rutasCriticasBlueprint)
