@@ -34,6 +34,7 @@ services:
     secrets:
       - api-key
       - api-password
+      - salt-password
     depends_on:
       - database
     networks:
@@ -46,6 +47,8 @@ secrets:
     file: ./src/database/root-password.txt
   api-password:
     file: ./src/database/api-password.txt
+  salt-password:
+    file: ./src/api/salt.txt
 
 volumes:
   db_data:
