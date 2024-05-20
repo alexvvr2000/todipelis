@@ -6,6 +6,7 @@ def obtenerDatosUsuarioBase(conexion: Connection) -> Usuario:
     cursor: Cursor = conexion.cursor()
     cursor.callproc("procedureUsuario", (1,))
     usuarioRetornado = cursor.fetchone()
+    cursor.close()
     return Usuario(
         idUsuario=1,
         nombreUsuario=usuarioRetornado[0],
