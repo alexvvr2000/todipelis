@@ -39,4 +39,4 @@ class ListaCriticas:
 
 @dataclass(frozen=True)
 class ListaFavoritos:
-    idFavorito = IdUsuarioPelicula
+    idFavorito: IdUsuarioPelicula
