@@ -1,6 +1,17 @@
 from mariadb import Connection, Cursor
 from ApiTodiPelis.types import ListaFavoritos, IdUsuarioPelicula
+from ApiTodiPelis.operaciones.Pelicula import existePeliculaBase
 from typing import List
+
+
+def peliculaEnFavoritos(conexion: Connection, idPelicula: str) -> bool:
+    if not existePeliculaBase(conexion, idPelicula):
+        raise Exception("Pelicula no existe en base")
+    cursor: Cursor = conexion.cursor()
+    cursor.execute("SELECT funcionEstaEnFavoritos(?, ?) as existe", [idPelicula, 1])
+    filaRetornada = cursor.fetchone()
+    cursor.close()
+    return filaRetornada[0] == 1
 
 
 def cantidadFavoritosUsuario(conexion: Connection) -> int:
