@@ -58,3 +58,18 @@ def agregarFavoritoBase(conexion: Connection, idPelicula: str) -> IdUsuarioPelic
     cursor.close()
     conexion.commit()
     return IdUsuarioPelicula(filaRetornada[0], filaRetornada[1])
+
+
+def borrarFavoritoBase(
+    conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
+) -> IdUsuarioPelicula:
+    if not existePeliculaBase(conexion):
+        raise Exception("Pelicula no existe en base")
+    cursor: Cursor = conexion.cursor()
+    cursor.callproc(
+        "procedureBorrarFavorito",
+        [idUsuarioPelicula.idUsuario, idUsuarioPelicula.idPelicula],
+    )
+    filaRetornada = cursor.fetchone()
+    cursor.close()
+    return IdUsuarioPelicula(filaRetornada[0], filaRetornada[1])
