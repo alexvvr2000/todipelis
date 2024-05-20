@@ -42,7 +42,7 @@ def obtenerCriticaUsuarioBase(
     if filaRetornada is None:
         return None
     fechaModificado: datetime | None = None
-    if filaRetornada[4] is not None:
+    if filaRetornada[3] is not None:
         fechaModificado = datetime.strptime(str(filaRetornada[3]), "%Y-%m-%d %H:%M:%S")
     return ListaCriticas(
         idUsuarioPelicula,
