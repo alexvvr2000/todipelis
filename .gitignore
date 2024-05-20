@@ -1,5 +1,6 @@
 # secrets docker
 src/api/api-key.txt
+src/api/salt.txt
 src/database/root-password.txt
 src/database/api-password.txt
 
