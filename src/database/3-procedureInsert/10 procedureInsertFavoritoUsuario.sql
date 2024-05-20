@@ -4,7 +4,7 @@ DELIMITER //
 
 CREATE PROCEDURE procedureInsertFavoritoUsuario(
     IN insertadoIdUsuario INT,
-    IN insertadoIdPelicula INT
+    IN insertadoIdPelicula VARCHAR(100)
 )
 BEGIN
     DECLARE pelicula_existe BOOLEAN;
