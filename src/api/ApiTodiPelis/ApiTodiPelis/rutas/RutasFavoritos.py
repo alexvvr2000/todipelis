@@ -1,6 +1,10 @@
 from flask import Blueprint, jsonify, request, abort
 from ApiTodiPelis.conexion import obtenerConexion
-from ApiTodiPelis.operaciones.Favoritos import obtenerFavoritos, agregarFavoritoBase
+from ApiTodiPelis.operaciones.Favoritos import (
+    obtenerFavoritos,
+    agregarFavoritoBase,
+    borrarFavoritoBase,
+)
 from ApiTodiPelis.types import ListaFavoritos, IdUsuarioPelicula
 from mariadb import Connection
 from typing import List
@@ -35,3 +39,15 @@ def agregarFavoritoUsuario():
             }
         }
     )
+
+
+@rutasFavoritosBlueprint.route("/1/favoritos", methods=["DELETE"])
+def borrarFavoritoUsuario():
+    conexion: Connection = obtenerConexion()
+    idPeliculaBorrada: str = request.args.get("idPelicula", "", type=str)
+    if idPeliculaBorrada == "":
+        abort(404)
+    criticaBorrada: IdUsuarioPelicula = borrarFavoritoBase(
+        conexion, IdUsuarioPelicula(1, idPeliculaBorrada)
+    )
+    return jsonify(criticaBorrada)
