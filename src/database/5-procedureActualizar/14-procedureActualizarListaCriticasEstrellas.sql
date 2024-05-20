@@ -4,7 +4,7 @@ DELIMITER //
 
 CREATE PROCEDURE procedureActualizarListaCriticasEstrellas(
     IN actualizadoIdUsuario INT,
-    IN actualizadoIdPelicula INT,
+    IN actualizadoIdPelicula VARCHAR(100),
     IN actualizadoEstrellas DECIMAL(3,2)
 )
 BEGIN
