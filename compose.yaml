@@ -49,6 +49,8 @@ secrets:
     file: ./src/database/api-password.txt
   salt-password:
     file: ./src/api/salt.txt
+  jwt-key:
+    file:  ./src/api/jwt-key.txt
 
 volumes:
   db_data:
