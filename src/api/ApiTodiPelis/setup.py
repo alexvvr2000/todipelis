@@ -10,6 +10,7 @@ setup(
         "flask==3.0.3",
         "mariadb==1.1.9",
         "get-docker-secret==2.0.0",
+        "Flask-JWT-Extended==4.6.0",
     ],
     extras_require={
         "dev": [
