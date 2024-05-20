@@ -93,3 +93,33 @@ def borrarCriticaBase(conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
     cursor.close()
     conexion.commit()
     return idUsuarioPelicula
+
+
+def actualizarEstrellasBase(
+    conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula, nuevasEstrellas: Decimal
+) -> Decimal:
+    if not estrellasValidas(nuevasEstrellas):
+        raise Exception("Estrellas deben estar entre 0 y 5")
+    cursor: Cursor = conexion.cursor()
+    cursor.callproc(
+        "procedureActualizarListaCriticasEstrellas",
+        [idUsuarioPelicula.idUsuario, idUsuarioPelicula.idPelicula, nuevasEstrellas],
+    )
+    filaRetornada = cursor.fetchone()
+    cursor.close()
+    return Decimal(filaRetornada[0])
+
+
+def actualizarDescripcionCriticaBase(
+    conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula, nuevaDescripcion: str
+) -> str:
+    if nuevaDescripcion == "":
+        raise Exception("Descripcion nueva invalida")
+    cursor: Cursor = conexion.cursor()
+    cursor.callproc(
+        "procedureActualizarListaCriticasDescripcion",
+        [idUsuarioPelicula.idUsuario, idUsuarioPelicula.idPelicula, nuevaDescripcion],
+    )
+    filaRetornada = cursor.fetchone()
+    cursor.close()
+    return filaRetornada[0]

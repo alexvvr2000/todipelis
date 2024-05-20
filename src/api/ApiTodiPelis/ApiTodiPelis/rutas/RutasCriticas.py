@@ -7,6 +7,8 @@ from ApiTodiPelis.operaciones.Criticas import (
     agregarCriticaBase,
     borrarCriticaBase,
     estrellasValidas,
+    actualizarEstrellasBase,
+    actualizarDescripcionCriticaBase,
 )
 from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula
 from typing import List
@@ -55,9 +57,22 @@ def borrarCritica():
 def actualizarCritica(idPelicula: str):
     nuevasEstrellas: Decimal = Decimal(request.args.get("estrellas", "-1.0", type=str))
     nuevaDescripcion: str = request.args.get("descripcion", "", type=str)
-    if not estrellasValidas(nuevasEstrellas):
-        raise Exception("Estrellas deben estar entre 0 y 5")
+    idUsuarioPelicula: IdUsuarioPelicula = IdUsuarioPelicula(1, idPelicula)
+    conexion: Connection = obtenerConexion()
+    respuesta = {
+        "idCritica": {
+            "idPelicula": idUsuarioPelicula.idPelicula,
+            "idUsuario": idUsuarioPelicula.idUsuario,
+        },
+    }
     if (not nuevasEstrellas == Decimal("-1.0")) and estrellasValidas(nuevasEstrellas):
-        pass
+        viejasEstrellas: Decimal = actualizarEstrellasBase(
+            conexion, idUsuarioPelicula, nuevasEstrellas
+        )
+        respuesta["viejasEstrellas"] = viejasEstrellas
     if not nuevaDescripcion == "":
-        pass
+        viejaDescripcion: str = actualizarDescripcionCriticaBase(
+            conexion, idUsuarioPelicula, nuevaDescripcion
+        )
+        respuesta["viejaDescripcion"] = viejaDescripcion
+    return jsonify(respuesta)
