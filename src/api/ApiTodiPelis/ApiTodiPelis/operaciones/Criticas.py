@@ -107,6 +107,7 @@ def actualizarEstrellasBase(
     )
     filaRetornada = cursor.fetchone()
     cursor.close()
+    conexion.commit()
     return Decimal(filaRetornada[0])
 
 
@@ -122,4 +123,5 @@ def actualizarDescripcionCriticaBase(
     )
     filaRetornada = cursor.fetchone()
     cursor.close()
+    conexion.commit()
     return filaRetornada[0]
