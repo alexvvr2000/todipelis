@@ -15,6 +15,7 @@ from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula
 from typing import List
 from decimal import Decimal, getcontext
 from datetime import date
+from flask_jwt_extended import jwt_required
 
 getcontext().prec = 2
 
@@ -22,6 +23,7 @@ rutasCriticasBlueprint: Blueprint = Blueprint("rutasCritcas", __name__)
 
 
 @rutasCriticasBlueprint.route("/criticas/", methods=["GET"])
+@jwt_required()
 def obtenerCriticas():
     conexion: Connection = obtenerConexion()
     criticasBase: List[ListaCriticas] = obtenerCriticasBase(conexion)
@@ -31,6 +33,7 @@ def obtenerCriticas():
 
 
 @rutasCriticasBlueprint.route("/criticas/<string:idPelicula>", methods=["GET"])
+@jwt_required()
 def obtenerCriticaUsuario(idPelicula: str):
     conexion: Connection = obtenerConexion()
     idUsuarioActual: int = 1
@@ -41,6 +44,7 @@ def obtenerCriticaUsuario(idPelicula: str):
 
 
 @rutasCriticasBlueprint.route("/criticas", methods=["POST"])
+@jwt_required()
 def agregarCritica():
     conexion: Connection = obtenerConexion()
     idUsuarioActual: int = 1
@@ -56,6 +60,7 @@ def agregarCritica():
 
 
 @rutasCriticasBlueprint.route("/criticas", methods=["DELETE"])
+@jwt_required()
 def borrarCritica():
     conexion: Connection = obtenerConexion()
     peliculaBorrada: str = request.args.get("idPelicula")
@@ -67,6 +72,7 @@ def borrarCritica():
 
 
 @rutasCriticasBlueprint.route("/criticas/<string:idPelicula>", methods=["PUT"])
+@jwt_required()
 def actualizarCritica(idPelicula: str):
     nuevasEstrellas: Decimal = Decimal(request.args.get("estrellas", "-1.0", type=str))
     nuevaDescripcion: str = request.args.get("descripcion", "", type=str)
