@@ -4,20 +4,6 @@ from flask_jwt_extended import jwt_required
 
 
 @jwt_required()
-def obtenerDatosUsuarioBase(conexion: Connection, idUsuario: int) -> Usuario:
-    cursor: Cursor = conexion.cursor()
-    cursor.callproc("procedureUsuario", (1,))
-    usuarioRetornado = cursor.fetchone()
-    cursor.close()
-    idUsuarioActual: int = idUsuario
-    return Usuario(
-        idUsuario=idUsuarioActual,
-        nombreUsuario=usuarioRetornado[0],
-        urlFotoPerfil=usuarioRetornado[1] if usuarioRetornado[1] is not None else None,
-        correoElectronico=usuarioRetornado[2],
-    )
-
-
 def existeCorreoRegistradoBase(conexion: Connection, correoElectronico: str) -> bool:
     cursor: Cursor = conexion.cursor()
     cursor.execute("select funcionCorreoExiste(?) as existe", (correoElectronico,))

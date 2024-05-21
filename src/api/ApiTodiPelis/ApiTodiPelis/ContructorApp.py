@@ -8,7 +8,7 @@ from ApiTodiPelis.rutas.RutasUsuario import rutasUsuarioBlueprint
 from ApiTodiPelis.operaciones.Usuario import obtenerDatosUsuarioBase
 from ApiTodiPelis.types import Usuario
 from ApiTodiPelis.conexion import obtenerConexion
-from mariadb import Connection
+from mariadb import Cursor
 from get_docker_secret import get_docker_secret
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
@@ -24,9 +24,17 @@ def idConInstancia(usuarioActual: Usuario):
 
 @jwtAplicacion.user_lookup_loader
 def buscarUsuarioPorMedioId(_jwt_header, jwt_data):
-    idUsuario: int = jwt_data["sub"]
-    conexionBase: Connection = obtenerConexion()
-    return obtenerDatosUsuarioBase(conexionBase, idUsuario)
+    idUsuarioActual: int = jwt_data["sub"]
+    cursor: Cursor = obtenerConexion().cursor()
+    cursor.callproc("procedureUsuario", (idUsuarioActual,))
+    usuarioRetornado = cursor.fetchone()
+    cursor.close()
+    return Usuario(
+        idUsuario=idUsuarioActual,
+        nombreUsuario=usuarioRetornado[0],
+        urlFotoPerfil=usuarioRetornado[1] if usuarioRetornado[1] is not None else None,
+        correoElectronico=usuarioRetornado[2],
+    )
 
 
 class DataclassProveedor(DefaultJSONProvider):
