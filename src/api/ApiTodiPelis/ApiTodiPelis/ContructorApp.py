@@ -56,6 +56,7 @@ def crearApp() -> Flask:
 
     app.config["JWT_SECRET_KEY"] = get_docker_secret("jwt-key")
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+    app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     jwtAplicacion.init_app(app)
 
     return app
