@@ -15,7 +15,7 @@ def existeCorreoRegistradoBase(conexion: Connection, correoElectronico: str) -> 
 def identificarUsuario(
     conexion: Connection, correoElectronico: str, claveAcceso: str
 ) -> int:
-    if not existeCorreoRegistradoBase(correoElectronico):
+    if not existeCorreoRegistradoBase(conexion, correoElectronico):
         raise Exception("Correo electronico no se encuentra en base")
     cursor: Cursor = conexion.cursor()
     cursor.callproc("procedureLoginValido", [correoElectronico, claveAcceso])
