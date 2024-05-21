@@ -1,16 +1,32 @@
-from flask import Flask, g
+from flask import Flask
 from flask.json.provider import DefaultJSONProvider
 from dataclasses import asdict, is_dataclass
 from ApiTodiPelis.rutas.RutasPelicula import rutasPeliculaBlueprint
 from ApiTodiPelis.rutas.RutasFavoritos import rutasFavoritosBlueprint
 from ApiTodiPelis.rutas.RutasCriticas import rutasCriticasBlueprint
 from ApiTodiPelis.rutas.RutasUsuario import rutasUsuarioBlueprint
+from ApiTodiPelis.operaciones.Usuario import obtenerDatosUsuarioBase
+from ApiTodiPelis.types import Usuario
+from ApiTodiPelis.conexion import obtenerConexion
+from mariadb import Connection
 from get_docker_secret import get_docker_secret
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
 
 
 jwtAplicacion: JWTManager = JWTManager()
+
+
+@jwtAplicacion.user_identity_loader
+def idConInstancia(usuarioActual: Usuario):
+    return usuarioActual.idUsuario
+
+
+@jwtAplicacion.user_lookup_loader
+def buscarUsuarioPorMedioId(_jwt_header, jwt_data):
+    idUsuario: int = jwt_data["sub"]
+    conexionBase: Connection = obtenerConexion()
+    return obtenerDatosUsuarioBase(conexionBase, idUsuario)
 
 
 class DataclassProveedor(DefaultJSONProvider):
