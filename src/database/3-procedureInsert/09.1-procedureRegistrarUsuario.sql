@@ -9,20 +9,20 @@ CREATE PROCEDURE procedureRegistrarUsuario(
     IN insertadoNombreUsuario VARCHAR(100)
 )
 BEGIN
+    DECLARE insertadoSalt CHAR(30);
+    DECLARE claveAccessoHash CHAR(128);
+
     IF funcionCorreoExiste(insertadoCorreoElectronico) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 4200: Usuario.Correo ya tiene registro en base';
-    END;
+    END IF;
 
     IF insertadoClaveAcceso = "" THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 4200: Nueva clave de accesso no puede estar vacia';
-    END;
+    END IF;
 
-    IF nombreUsuario = "" THEN
+    IF insertadoNombreUsuario = "" THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 4200: Nuevo nombre de usuario no puede estar vacio';
-    END;
-
-    DECLARE insertadoSalt CHAR(30);
-    DECLARE claveAccessoHash CHAR(128);
+    END IF;
 
     SET insertadoSalt = CAST(RANDOM_BYTES(32) AS CHAR(30));
     SET claveAccessoHash = SHA2(CONCAT(insertadoClaveAcceso, insertadoSalt),512);
