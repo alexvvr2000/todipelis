@@ -8,11 +8,13 @@ from ApiTodiPelis.operaciones.Favoritos import (
 from ApiTodiPelis.types import ListaFavoritos, IdUsuarioPelicula
 from mariadb import Connection
 from typing import List
+from flask_jwt_extended import current_user, jwt_required
 
 rutasFavoritosBlueprint: Blueprint = Blueprint("rutasFavoritos", __name__)
 
 
 @rutasFavoritosBlueprint.route("/favoritos/", methods=["GET"])
+@jwt_required()
 def obtenerFavoritosUsuario():
     conexion: Connection = obtenerConexion()
     favoritosUsuario: List[ListaFavoritos] = obtenerFavoritos(conexion)
@@ -25,6 +27,7 @@ def obtenerFavoritosUsuario():
 
 
 @rutasFavoritosBlueprint.route("/favoritos", methods=["POST"])
+@jwt_required()
 def agregarFavoritoUsuario():
     conexion: Connection = obtenerConexion()
     idPeliculaAgregada: str = request.args.get("idPelicula", "", type=str)
@@ -42,12 +45,13 @@ def agregarFavoritoUsuario():
 
 
 @rutasFavoritosBlueprint.route("/favoritos", methods=["DELETE"])
+@jwt_required()
 def borrarFavoritoUsuario():
     conexion: Connection = obtenerConexion()
     idPeliculaBorrada: str = request.args.get("idPelicula", "", type=str)
     if idPeliculaBorrada == "":
         abort(404)
-    idUsuarioActual: int = 1
+    idUsuarioActual: int = current_user.idUsuario
     criticaBorrada: IdUsuarioPelicula = borrarFavoritoBase(
         conexion, IdUsuarioPelicula(idUsuarioActual, idPeliculaBorrada)
     )
