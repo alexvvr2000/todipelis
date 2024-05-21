@@ -9,6 +9,4 @@ rutasUsuarioBlueprint: Blueprint = Blueprint("rutasUsuario", __name__)
 
 @rutasUsuarioBlueprint.route("/", methods=["GET"])
 def obtenerDatosUsuario():
-    conexion: Connection = obtenerConexion()
-    usuarioBase: Usuario = obtenerDatosUsuarioBase(conexion)
-    return jsonify(usuarioBase)
+    return jsonify({"Conexion": "establecida"})
