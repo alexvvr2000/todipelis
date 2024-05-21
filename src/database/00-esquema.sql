@@ -3,6 +3,9 @@ USE todipelis;
 
 CREATE TABLE Usuario (
     idUsuario INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    correoElectronico VARCHAR(255) NOT NULL UNIQUE,
+    claveAccesso CHAR(32) NOT NULL,
+    saltClaveAcceso CHAR(16) NOT NULL,
     nombreUsuario VARCHAR(100) NOT NULL,
     urlFotoPerfil VARCHAR(255) NULL
 );
