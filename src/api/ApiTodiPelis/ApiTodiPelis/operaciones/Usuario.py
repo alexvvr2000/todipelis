@@ -3,7 +3,6 @@ from ApiTodiPelis.types import Usuario
 from flask_jwt_extended import jwt_required
 
 
-@jwt_required()
 def existeCorreoRegistradoBase(conexion: Connection, correoElectronico: str) -> bool:
     cursor: Cursor = conexion.cursor()
     cursor.execute("select funcionCorreoExiste(?) as existe", (correoElectronico,))
