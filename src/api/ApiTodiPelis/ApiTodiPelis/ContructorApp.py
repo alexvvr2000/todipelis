@@ -7,6 +7,7 @@ from ApiTodiPelis.rutas.RutasCriticas import rutasCriticasBlueprint
 from ApiTodiPelis.rutas.RutasUsuario import rutasUsuarioBlueprint
 from get_docker_secret import get_docker_secret
 from flask_jwt_extended import JWTManager
+from datetime import timedelta
 
 
 jwtAplicacion: JWTManager = JWTManager()
@@ -23,13 +24,14 @@ def crearApp() -> Flask:
     app: Flask = Flask(__name__)
 
     app.json = DataclassProveedor(app)
-    app.config["JWT_SECRET_KEY"] = get_docker_secret("jwt-key")
 
     app.register_blueprint(rutasPeliculaBlueprint)
     app.register_blueprint(rutasFavoritosBlueprint)
     app.register_blueprint(rutasCriticasBlueprint)
     app.register_blueprint(rutasUsuarioBlueprint)
 
+    app.config["JWT_SECRET_KEY"] = get_docker_secret("jwt-key")
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
     jwtAplicacion.init_app(app)
 
     return app
