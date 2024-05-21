@@ -7,8 +7,9 @@ def obtenerDatosUsuarioBase(conexion: Connection) -> Usuario:
     cursor.callproc("procedureUsuario", (1,))
     usuarioRetornado = cursor.fetchone()
     cursor.close()
+    idUsuarioActual = 1
     return Usuario(
-        idUsuario=1,
+        idUsuario=idUsuarioActual,
         nombreUsuario=usuarioRetornado[0],
         urlFotoPerfil=usuarioRetornado[1] if usuarioRetornado[1] is not None else None,
         correoElectronico=usuarioRetornado[2],
