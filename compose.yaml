@@ -34,7 +34,7 @@ services:
     secrets:
       - api-key
       - api-password
-      - salt-password
+      - jwt-key
     depends_on:
       - database
     networks:
@@ -47,8 +47,6 @@ secrets:
     file: ./src/database/root-password.txt
   api-password:
     file: ./src/database/api-password.txt
-  salt-password:
-    file: ./src/api/salt.txt
   jwt-key:
     file:  ./src/api/jwt-key.txt
 

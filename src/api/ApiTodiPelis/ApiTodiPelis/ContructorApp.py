@@ -17,8 +17,8 @@ jwtAplicacion: JWTManager = JWTManager()
 
 
 @jwtAplicacion.user_identity_loader
-def idConInstancia(usuarioActual: Usuario):
-    return usuarioActual.idUsuario
+def idConInstancia(idUsuarioActual: int):
+    return idUsuarioActual
 
 
 @jwtAplicacion.user_lookup_loader
@@ -52,10 +52,10 @@ def crearApp() -> Flask:
     app.register_blueprint(rutasFavoritosBlueprint)
     app.register_blueprint(rutasCriticasBlueprint)
     app.register_blueprint(rutasUsuarioBlueprint)
-
     app.config["JWT_SECRET_KEY"] = get_docker_secret("jwt-key")
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
+    app.config["JWT_ALGORITHM"] = "HS512"
     jwtAplicacion.init_app(app)
 
     return app
