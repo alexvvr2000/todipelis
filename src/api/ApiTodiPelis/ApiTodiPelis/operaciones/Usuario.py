@@ -1,13 +1,15 @@
 from mariadb import Connection, Cursor
 from ApiTodiPelis.types import Usuario
+from flask_jwt_extended import jwt_required
 
 
-def obtenerDatosUsuarioBase(conexion: Connection) -> Usuario:
+@jwt_required()
+def obtenerDatosUsuarioBase(conexion: Connection, idUsuario: int) -> Usuario:
     cursor: Cursor = conexion.cursor()
     cursor.callproc("procedureUsuario", (1,))
     usuarioRetornado = cursor.fetchone()
     cursor.close()
-    idUsuarioActual: int = 1
+    idUsuarioActual: int = idUsuario
     return Usuario(
         idUsuario=idUsuarioActual,
         nombreUsuario=usuarioRetornado[0],
