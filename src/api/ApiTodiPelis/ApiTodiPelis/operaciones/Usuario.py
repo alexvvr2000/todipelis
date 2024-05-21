@@ -11,6 +11,7 @@ def obtenerDatosUsuarioBase(conexion: Connection) -> Usuario:
         idUsuario=1,
         nombreUsuario=usuarioRetornado[0],
         urlFotoPerfil=usuarioRetornado[1] if usuarioRetornado[1] is not None else None,
+        correoElectronico=usuarioRetornado[2],
     )
 
 

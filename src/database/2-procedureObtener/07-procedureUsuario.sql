@@ -12,7 +12,7 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 1400: Usuario.idUsuario no existe';
     END IF;
 
-    SELECT nombreUsuario, urlFotoPerfil
+    SELECT nombreUsuario, urlFotoPerfil, correoElectronico
     FROM Usuario
     WHERE idUsuario = idUsuarioBuscado;
 END//
