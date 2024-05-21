@@ -47,7 +47,8 @@ def borrarFavoritoUsuario():
     idPeliculaBorrada: str = request.args.get("idPelicula", "", type=str)
     if idPeliculaBorrada == "":
         abort(404)
+    idUsuarioActual: int = 1
     criticaBorrada: IdUsuarioPelicula = borrarFavoritoBase(
-        conexion, IdUsuarioPelicula(1, idPeliculaBorrada)
+        conexion, IdUsuarioPelicula(idUsuarioActual, idPeliculaBorrada)
     )
     return jsonify(criticaBorrada)
