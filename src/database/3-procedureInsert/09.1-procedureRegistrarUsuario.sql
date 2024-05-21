@@ -1,4 +1,3 @@
-
 use todipelis;
 
 DELIMITER //
@@ -24,12 +23,13 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 4200: Nuevo nombre de usuario no puede estar vacio';
     END IF;
 
-    SET insertadoSalt = CAST(RANDOM_BYTES(32) AS CHAR(30));
+    SET insertadoSalt = SUBSTRING(HEX(RANDOM_BYTES(32)), 1, 30);
     SET claveAccessoHash = SHA2(CONCAT(insertadoClaveAcceso, insertadoSalt),512);
 
     INSERT INTO Usuario(correoElectronico, claveAccesso, saltClaveAcceso, nombreUsuario) VALUES
-        (insertadoCorreoElectronico, claveAccessoHash, insertadoSalt, insertadoNombreUsuario) 
-    RETURNING idUsuario;
+        (insertadoCorreoElectronico, claveAccessoHash, insertadoSalt, insertadoNombreUsuario);
+
+    SELECT LAST_INSERT_ID() as idUsuarioNuevo;
 END//
 
 DELIMITER ;
