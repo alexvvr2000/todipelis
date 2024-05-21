@@ -40,5 +40,6 @@ def registrarUsuario(
         "procedureRegistrarUsuario", [correoElectronico, claveNueva, nombreUsuario]
     )
     nuevoIdUsuario = cursor.fetchone()
+    cursor.close()
     conexion.commit()
     return int(nuevoIdUsuario[0])

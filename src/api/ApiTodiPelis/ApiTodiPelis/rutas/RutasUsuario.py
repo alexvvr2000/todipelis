@@ -15,7 +15,7 @@ def obtenerDatosUsuario():
 def registrarUsuarioApi():
     conexion: Connection = obtenerConexion()
     correoElectronicoNuevo: str = request.args.get("correoElectronico", "")
-    claveAccesoNueva: str = request.args.get("claveAccesso", "")
+    claveAccesoNueva: str = request.args.get("claveAcceso", "")
     nombreUsuarioNuevo: str = request.args.get("nombreUsuario", "")
     nuevaId: int = registrarUsuario(
         conexion, correoElectronicoNuevo, claveAccesoNueva, nombreUsuarioNuevo
