@@ -15,7 +15,10 @@ from typing import List
 
 def peliculaEnFavoritos(conexion: Connection, idPelicula: str) -> bool:
     cursor: Cursor = conexion.cursor()
-    cursor.execute("SELECT funcionEstaEnFavoritos(?, ?) as existe", [idPelicula, 1])
+    idUsuarioActual: int = 1
+    cursor.execute(
+        "SELECT funcionEstaEnFavoritos(?, ?) as existe", [idPelicula, idUsuarioActual]
+    )
     filaRetornada = cursor.fetchone()
     cursor.close()
     return filaRetornada[0] == 1
@@ -23,15 +26,18 @@ def peliculaEnFavoritos(conexion: Connection, idPelicula: str) -> bool:
 
 def cantidadFavoritosUsuario(conexion: Connection) -> int:
     cursor: Cursor = conexion.cursor()
-    cursor.execute("SELECT funcionCantidadFavoritosUsuario(?) as cantidad", [1])
+    idUsuarioActual: int = 1
+    cursor.execute(
+        "SELECT funcionCantidadFavoritosUsuario(?) as cantidad", [idUsuarioActual]
+    )
     valorRetornado = cursor.fetchone()
     return int(valorRetornado[0])
 
 
 def obtenerFavoritos(conexion: Connection) -> List[ListaFavoritos]:
     cursor: Cursor = conexion.cursor()
-    cursor.callproc("procedureObtenerFavoritos", (1,))
-
+    idUsuarioActual: int = 1
+    cursor.callproc("procedureObtenerFavoritos", (idUsuarioActual,))
     valoresBase: List[ListaFavoritos] = []
     favoritoActual = cursor.fetchone()
     while favoritoActual is not None:
@@ -53,7 +59,8 @@ def agregarFavoritoBase(conexion: Connection, idPelicula: str) -> IdUsuarioPelic
         peliculaNueva: Pelicula = obtenerPeliculaIdApi(idPelicula)
         agregarPeliculaBase(conexion, peliculaNueva)
     cursor: Cursor = conexion.cursor()
-    cursor.callproc("procedureInsertFavoritoUsuario", [1, idPelicula])
+    idUsuarioActual: int = 1
+    cursor.callproc("procedureInsertFavoritoUsuario", [idUsuarioActual, idPelicula])
     filaRetornada = cursor.fetchone()
     cursor.close()
     conexion.commit()
