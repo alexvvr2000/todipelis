@@ -5,7 +5,6 @@ from ApiTodiPelis.rutas.RutasPelicula import rutasPeliculaBlueprint
 from ApiTodiPelis.rutas.RutasFavoritos import rutasFavoritosBlueprint
 from ApiTodiPelis.rutas.RutasCriticas import rutasCriticasBlueprint
 from ApiTodiPelis.rutas.RutasUsuario import rutasUsuarioBlueprint
-from ApiTodiPelis.operaciones.Usuario import obtenerDatosUsuarioBase
 from ApiTodiPelis.types import Usuario
 from ApiTodiPelis.conexion import obtenerConexion
 from mariadb import Cursor
