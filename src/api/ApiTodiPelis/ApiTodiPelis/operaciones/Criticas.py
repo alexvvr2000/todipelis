@@ -59,7 +59,7 @@ def obtenerCriticaUsuarioBase(
 @jwt_required()
 def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
     cursor: Cursor = conexion.cursor()
-    cursor.callproc("procedureCriticasUsuario", (1,))
+    cursor.callproc("procedureCriticasUsuario", (current_user.idUsuario,))
 
     valoresBase: List[ListaCriticas] = []
     criticaActual = cursor.fetchone()
