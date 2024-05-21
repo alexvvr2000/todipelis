@@ -39,8 +39,6 @@ CREATE TABLE ListaFavoritos (
     FOREIGN KEY (idPelicula) REFERENCES Pelicula(idPelicula) ON DELETE CASCADE
 );
 
-INSERT INTO Usuario(nombreUsuario) VALUES("Alejandro Valenzuela");
-
 INSERT INTO Pelicula (idPelicula, titulo, genero, urlPoster, rating, sinopsis)
 VALUES
     ('tt0133093', 'The Matrix', 'Action, Sci-Fi', 'https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg', 8.7, 'When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.'),
