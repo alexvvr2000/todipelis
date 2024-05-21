@@ -9,6 +9,7 @@ from ApiTodiPelis.operaciones.Pelicula import (
 from decimal import Decimal, getcontext
 from typing import List
 from datetime import datetime
+from flask_jwt_extended import jwt_required, current_user
 
 getcontext().prec = 2
 
@@ -17,6 +18,7 @@ def estrellasValidas(estrellas: Decimal) -> bool:
     return Decimal("0.0") <= estrellas and estrellas <= Decimal("5.0")
 
 
+@jwt_required()
 def existeCriticaBase(conexion: Connection, idPeliculaIdApi: IdUsuarioPelicula) -> bool:
     cursor: Cursor = conexion.cursor()
     cursor.execute(
@@ -27,6 +29,7 @@ def existeCriticaBase(conexion: Connection, idPeliculaIdApi: IdUsuarioPelicula) 
     return filaRetornada[0] == 1
 
 
+@jwt_required()
 def obtenerCriticaUsuarioBase(
     conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
 ) -> ListaCriticas:
@@ -53,6 +56,7 @@ def obtenerCriticaUsuarioBase(
     )
 
 
+@jwt_required()
 def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
     cursor: Cursor = conexion.cursor()
     cursor.callproc("procedureCriticasUsuario", (1,))
@@ -80,6 +84,7 @@ def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
     return valoresBase
 
 
+@jwt_required()
 def agregarCriticaBase(
     conexion: Connection, criticaNueva: ListaCriticas
 ) -> IdUsuarioPelicula:
@@ -108,6 +113,7 @@ def agregarCriticaBase(
     return criticaNueva.idCritica
 
 
+@jwt_required()
 def borrarCriticaBase(conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula):
     if not existeCriticaBase(conexion, idUsuarioPelicula):
         raise Exception("Critica no existe en base")
@@ -121,6 +127,7 @@ def borrarCriticaBase(conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
     return idUsuarioPelicula
 
 
+@jwt_required()
 def actualizarEstrellasBase(
     conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula, nuevasEstrellas: Decimal
 ) -> Decimal:
@@ -137,6 +144,7 @@ def actualizarEstrellasBase(
     return Decimal(filaRetornada[0])
 
 
+@jwt_required()
 def actualizarDescripcionCriticaBase(
     conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula, nuevaDescripcion: str
 ) -> str:
