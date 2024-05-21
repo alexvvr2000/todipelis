@@ -10,9 +10,9 @@ rutasUsuarioBlueprint: Blueprint = Blueprint("rutasUsuario", __name__)
 @rutasUsuarioBlueprint.route("/", methods=["POST"])
 def registrarUsuarioApi():
     conexion: Connection = obtenerConexion()
-    correoElectronicoNuevo: str = request.args.get("correoElectronico", "")
-    claveAccesoNueva: str = request.args.get("claveAcceso", "")
-    nombreUsuarioNuevo: str = request.args.get("nombreUsuario", "")
+    correoElectronicoNuevo: str = request.headers.get("correoElectronico", "")
+    claveAccesoNueva: str = request.headers.get("claveAcceso", "")
+    nombreUsuarioNuevo: str = request.headers.get("nombreUsuario", "")
     nuevaId: int = registrarUsuario(
         conexion, correoElectronicoNuevo, claveAccesoNueva, nombreUsuarioNuevo
     )
