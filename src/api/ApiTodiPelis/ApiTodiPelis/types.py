@@ -15,6 +15,7 @@ class IdUsuarioPelicula:
 class Usuario:
     idUsuario: int
     nombreUsuario: str
+    correoElectronico: str
     urlFotoPerfil: str | None
 
 
