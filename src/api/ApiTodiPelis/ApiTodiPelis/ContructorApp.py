@@ -22,7 +22,7 @@ def idConInstancia(usuarioActual: Usuario):
 
 
 @jwtAplicacion.user_lookup_loader
-def buscarUsuarioPorMedioId(_jwt_header, jwt_data):
+def buscarUsuarioPorMedioId(_jwt_header, jwt_data) -> Usuario:
     idUsuarioActual: int = jwt_data["sub"]
     cursor: Cursor = obtenerConexion().cursor()
     cursor.callproc("procedureUsuario", (idUsuarioActual,))
