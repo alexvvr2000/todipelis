@@ -15,7 +15,7 @@ from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula
 from typing import List
 from decimal import Decimal, getcontext
 from datetime import date
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, current_user
 
 getcontext().prec = 2
 
@@ -36,7 +36,7 @@ def obtenerCriticas():
 @jwt_required()
 def obtenerCriticaUsuario(idPelicula: str):
     conexion: Connection = obtenerConexion()
-    idUsuarioActual: int = 1
+    idUsuarioActual: int = current_user.idUsuario
     criticaBase: ListaCriticas = obtenerCriticaUsuarioBase(
         conexion, IdUsuarioPelicula(idUsuarioActual, idPelicula)
     )
@@ -47,7 +47,7 @@ def obtenerCriticaUsuario(idPelicula: str):
 @jwt_required()
 def agregarCritica():
     conexion: Connection = obtenerConexion()
-    idUsuarioActual: int = 1
+    idUsuarioActual: int = current_user.idUsuario
     nuevaCritica: ListaCriticas = ListaCriticas(
         idCritica=IdUsuarioPelicula(idUsuarioActual, request.args.get("idPelicula")),
         descripcion=request.args.get("descripcion"),
@@ -64,7 +64,7 @@ def agregarCritica():
 def borrarCritica():
     conexion: Connection = obtenerConexion()
     peliculaBorrada: str = request.args.get("idPelicula")
-    idUsuarioActual: int = 1
+    idUsuarioActual: int = current_user.idUsuario
     idCriticaBorrada: str = borrarCriticaBase(
         conexion, IdUsuarioPelicula(idUsuarioActual, peliculaBorrada)
     )
@@ -76,7 +76,7 @@ def borrarCritica():
 def actualizarCritica(idPelicula: str):
     nuevasEstrellas: Decimal = Decimal(request.args.get("estrellas", "-1.0", type=str))
     nuevaDescripcion: str = request.args.get("descripcion", "", type=str)
-    idUsuarioActual: int = 1
+    idUsuarioActual: int = current_user.idUsuario
     idUsuarioPelicula: IdUsuarioPelicula = IdUsuarioPelicula(
         idUsuarioActual, idPelicula
     )
