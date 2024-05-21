@@ -13,6 +13,18 @@ def existeCorreoRegistradoBase(conexion: Connection, correoElectronico: str) -> 
     return peliculaExiste
 
 
+def identificarUsuario(
+    conexion: Connection, correoElectronico: str, claveAcceso: str
+) -> int:
+    if not existeCorreoRegistradoBase(correoElectronico):
+        raise Exception("Correo electronico no se encuentra en base")
+    cursor: Cursor = conexion.cursor()
+    cursor.callproc("procedureLoginValido", [correoElectronico, claveAcceso])
+    filaRetornada = cursor.fetchone()
+    cursor.close()
+    return int(filaRetornada[0])
+
+
 def registrarUsuario(
     conexion: Connection, correoElectronico: str, claveNueva: str, nombreUsuario: str
 ) -> Usuario:
