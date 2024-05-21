@@ -11,11 +11,13 @@ from ApiTodiPelis.operaciones.Pelicula import (
     obtenerPeliculaIdApi,
 )
 from typing import List
+from flask_jwt_extended import current_user, jwt_required
 
 
+@jwt_required()
 def peliculaEnFavoritos(conexion: Connection, idPelicula: str) -> bool:
     cursor: Cursor = conexion.cursor()
-    idUsuarioActual: int = 1
+    idUsuarioActual: int = current_user.idUsuario
     cursor.execute(
         "SELECT funcionEstaEnFavoritos(?, ?) as existe", [idPelicula, idUsuarioActual]
     )
@@ -24,9 +26,10 @@ def peliculaEnFavoritos(conexion: Connection, idPelicula: str) -> bool:
     return filaRetornada[0] == 1
 
 
+@jwt_required()
 def cantidadFavoritosUsuario(conexion: Connection) -> int:
     cursor: Cursor = conexion.cursor()
-    idUsuarioActual: int = 1
+    idUsuarioActual: int = current_user.idUsuario
     cursor.execute(
         "SELECT funcionCantidadFavoritosUsuario(?) as cantidad", [idUsuarioActual]
     )
@@ -34,9 +37,10 @@ def cantidadFavoritosUsuario(conexion: Connection) -> int:
     return int(valorRetornado[0])
 
 
+@jwt_required()
 def obtenerFavoritos(conexion: Connection) -> List[ListaFavoritos]:
     cursor: Cursor = conexion.cursor()
-    idUsuarioActual: int = 1
+    idUsuarioActual: int = current_user.idUsuario
     cursor.callproc("procedureObtenerFavoritos", (idUsuarioActual,))
     valoresBase: List[ListaFavoritos] = []
     favoritoActual = cursor.fetchone()
@@ -48,6 +52,7 @@ def obtenerFavoritos(conexion: Connection) -> List[ListaFavoritos]:
     return valoresBase
 
 
+@jwt_required()
 def agregarFavoritoBase(conexion: Connection, idPelicula: str) -> IdUsuarioPelicula:
     if cantidadFavoritosUsuario(conexion) == 5:
         raise Exception("Ya se llego al limite de favoritos en usuario")
@@ -59,7 +64,7 @@ def agregarFavoritoBase(conexion: Connection, idPelicula: str) -> IdUsuarioPelic
         peliculaNueva: Pelicula = obtenerPeliculaIdApi(idPelicula)
         agregarPeliculaBase(conexion, peliculaNueva)
     cursor: Cursor = conexion.cursor()
-    idUsuarioActual: int = 1
+    idUsuarioActual: int = current_user.idUsuario
     cursor.callproc("procedureInsertFavoritoUsuario", [idUsuarioActual, idPelicula])
     filaRetornada = cursor.fetchone()
     cursor.close()
@@ -67,6 +72,7 @@ def agregarFavoritoBase(conexion: Connection, idPelicula: str) -> IdUsuarioPelic
     return IdUsuarioPelicula(filaRetornada[0], filaRetornada[1])
 
 
+@jwt_required()
 def borrarFavoritoBase(
     conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
 ) -> IdUsuarioPelicula:
