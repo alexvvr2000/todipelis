@@ -6,7 +6,6 @@ from ApiTodiPelis.types import (
 )
 from ApiTodiPelis.operaciones.Pelicula import (
     existePeliculaBase,
-    existePeliculaApi,
     agregarPeliculaBase,
     obtenerPeliculaIdApi,
 )
@@ -58,8 +57,6 @@ def agregarFavoritoBase(conexion: Connection, idPelicula: str) -> IdUsuarioPelic
         raise Exception("Ya se llego al limite de favoritos en usuario")
     if peliculaEnFavoritos(conexion, idPelicula):
         raise Exception("Pelicula ya esta incluida en favoritos de usuario")
-    if not existePeliculaApi(idPelicula):
-        raise Exception("Pelicula no existe en base")
     if not existePeliculaBase(conexion, idPelicula):
         peliculaNueva: Pelicula = obtenerPeliculaIdApi(idPelicula)
         agregarPeliculaBase(conexion, peliculaNueva)

@@ -1,7 +1,6 @@
 from mariadb import Connection, Cursor
 from ApiTodiPelis.types import ListaCriticas, IdUsuarioPelicula, Pelicula
 from ApiTodiPelis.operaciones.Pelicula import (
-    existePeliculaApi,
     existePeliculaBase,
     agregarPeliculaBase,
     obtenerPeliculaIdApi,
@@ -90,8 +89,6 @@ def agregarCriticaBase(
 ) -> IdUsuarioPelicula:
     if existeCriticaBase(conexion, criticaNueva.idCritica):
         raise Exception("Usuario ya tiene una critica de la pelicula dada")
-    if not existePeliculaApi(criticaNueva.idCritica.idPelicula):
-        raise Exception("Pelicula no existe en base")
     if not existePeliculaBase(conexion, criticaNueva.idCritica.idPelicula):
         peliculaNueva: Pelicula = obtenerPeliculaIdApi(
             criticaNueva.idCritica.idPelicula
