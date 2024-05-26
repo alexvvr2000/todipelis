@@ -36,7 +36,7 @@ def agregarPeliculaBase(conexion: Connection, pelicula: Pelicula) -> str:
     return idInsertado[0]
 
 
-def obtenerPeliculaIdApi(idPelicula: str) -> Pelicula | None:
+def obtenerPeliculaIdApi(idPelicula: str) -> Pelicula:
     urlBase: str = "http://www.omdbapi.com/"
     parametros: Dict[str, str] = {
         "apikey": get_docker_secret("api-key"),
@@ -44,10 +44,10 @@ def obtenerPeliculaIdApi(idPelicula: str) -> Pelicula | None:
     }
     respuesta: Response = get(urlBase, params=parametros)
     if respuesta.status_code != 200:
-        return None
+        raise Exception("No se pudo hacer contacto con la base de datos de pelicula")
     datosPeliculas = respuesta.json()
     if datosPeliculas.get("Response") == "False":
-        return None
+        raise Exception("No se encontro pelicula por id en api")
     peliculaBase = Pelicula(
         idPelicula=idPelicula,
         titulo=datosPeliculas.get("Title"),
@@ -84,7 +84,7 @@ def obtenerPeliculaTitulo(conexion: Connection, tituloPelicula: str) -> Pelicula
     return peliculaBase
 
 
-def obtenerPelicula(conexion: Connection, idPelicula: str) -> Pelicula | None:
+def obtenerPelicula(conexion: Connection, idPelicula: str) -> Pelicula:
     peliculaBase: Pelicula | None
     if existePeliculaBase(conexion, idPelicula):
         cursor: Cursor = conexion.cursor()
@@ -101,8 +101,6 @@ def obtenerPelicula(conexion: Connection, idPelicula: str) -> Pelicula | None:
         )
         return peliculaBase
     else:
-        peliculaBase: Pelicula | None = obtenerPeliculaIdApi(idPelicula)
-        if peliculaBase is None:
-            return None
+        peliculaBase: Pelicula = obtenerPeliculaIdApi(idPelicula)
         agregarPeliculaBase(conexion, peliculaBase)
     return peliculaBase
