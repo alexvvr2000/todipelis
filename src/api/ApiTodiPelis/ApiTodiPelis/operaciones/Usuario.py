@@ -3,20 +3,9 @@ from ApiTodiPelis.types import Usuario
 from flask_jwt_extended import jwt_required
 
 
-def existeCorreoRegistradoBase(conexion: Connection, correoElectronico: str) -> bool:
-    cursor: Cursor = conexion.cursor()
-    cursor.execute("select funcionCorreoExiste(?) as existe", (correoElectronico,))
-    filaRetornada = cursor.fetchone()
-    cursor.close()
-    peliculaExiste: bool = filaRetornada[0] == 1
-    return peliculaExiste
-
-
 def identificarUsuario(
     conexion: Connection, correoElectronico: str, claveAcceso: str
 ) -> int:
-    if not existeCorreoRegistradoBase(conexion, correoElectronico):
-        raise Exception("Correo electronico no se encuentra en base")
     cursor: Cursor = conexion.cursor()
     cursor.callproc("procedureLoginValido", [correoElectronico, claveAcceso])
     filaRetornada = cursor.fetchone()
@@ -29,8 +18,6 @@ def registrarUsuario(
 ) -> Usuario:
     if correoElectronico == "":
         raise Exception("Correo no puede estar vacio")
-    if existeCorreoRegistradoBase(conexion, correoElectronico):
-        raise Exception("Correo ya existe en base")
     if claveNueva == "":
         raise Exception("Clave de acceso no puede estar vacia")
     if nombreUsuario == "":
