@@ -11,9 +11,7 @@ rutasPeliculaBlueprint: Blueprint = Blueprint("rutasPelicula", __name__)
 @rutasPeliculaBlueprint.route("/pelicula/<string:idPelicula>", methods=["GET"])
 def obtenerPeliculaIdBase(idPelicula: str):
     conexion: Connection = obtenerConexion()
-    peliculaBase: Pelicula | None = obtenerPelicula(conexion, idPelicula)
-    if peliculaBase is None:
-        abort(404, description="Pelicula no existe en base")
+    peliculaBase: Pelicula = obtenerPelicula(conexion, idPelicula)
     return jsonify(peliculaBase)
 
 
@@ -21,9 +19,7 @@ def obtenerPeliculaIdBase(idPelicula: str):
 def obtenerPeliculaTituloBase():
     conexion: Connection = obtenerConexion()
     tituloBuscado: str = request.args.get("titulo")
-    peliculaBase: Pelicula | None = obtenerPeliculaTitulo(conexion, tituloBuscado)
-    if peliculaBase is None:
-        abort(404, description="Pelicula no existe en base")
+    peliculaBase: Pelicula = obtenerPeliculaTitulo(conexion, tituloBuscado)
     return jsonify(peliculaBase)
 
 
