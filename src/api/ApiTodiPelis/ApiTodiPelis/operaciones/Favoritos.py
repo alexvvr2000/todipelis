@@ -73,6 +73,8 @@ def agregarFavoritoBase(conexion: Connection, idPelicula: str) -> IdUsuarioPelic
 def borrarFavoritoBase(
     conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
 ) -> IdUsuarioPelicula:
+    if idUsuarioPelicula.idUsuario != current_user.idUsuario:
+        raise Exception("id de usuario no concuerda con el de la sesion actual")
     if not existePeliculaBase(conexion, idUsuarioPelicula.idPelicula):
         raise Exception("Pelicula no existe en base")
     cursor: Cursor = conexion.cursor()
