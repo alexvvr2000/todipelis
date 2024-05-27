@@ -3,7 +3,6 @@ from ApiTodiPelis.operaciones.Pelicula import obtenerPelicula, obtenerPeliculaTi
 from ApiTodiPelis.conexion import obtenerConexion
 from ApiTodiPelis.types import Pelicula
 from mariadb import Connection
-from dataclasses import asdict
 
 rutasPeliculaBlueprint: Blueprint = Blueprint("rutasPelicula", __name__)
 
@@ -19,7 +18,12 @@ def obtenerPeliculaIdBase(idPelicula: str):
 def obtenerPeliculaTituloBase():
     conexion: Connection = obtenerConexion()
     tituloBuscado: str = request.args.get("titulo")
-    peliculaBase: Pelicula = obtenerPeliculaTitulo(conexion, tituloBuscado)
+    paginaBusqueda: int = request.args.get("paginaBusqueda", default=-1, type=int)
+    if paginaBusqueda <= 0:
+        raise Exception("La pagina debe estar ser mayor o igual a 1")
+    peliculaBase: Pelicula = obtenerPeliculaTitulo(
+        conexion, tituloBuscado, paginaBusqueda
+    )
     return jsonify(peliculaBase)
 
 
