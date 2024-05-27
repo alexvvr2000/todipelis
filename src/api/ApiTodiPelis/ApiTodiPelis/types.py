@@ -23,10 +23,10 @@ class Usuario:
 class Pelicula:
     idPelicula: str
     titulo: str
-    genero: str
-    urlPoster: str
-    rating: Decimal
-    sinopsis: str
+    genero: str | None
+    urlPoster: str | None
+    rating: Decimal | None
+    sinopsis: str | None
 
 
 @dataclass(frozen=True)
