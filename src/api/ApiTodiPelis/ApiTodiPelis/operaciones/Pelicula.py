@@ -62,13 +62,17 @@ def obtenerPeliculaIdApi(idPelicula: str) -> Pelicula:
     datosPeliculas = respuesta.json()
     if datosPeliculas.get("Response") == "False":
         raise Exception("No se encontro pelicula por id en api")
+    generoPelicula: str = datosPeliculas.get("Genre")
+    urlPosterPelicula: str = datosPeliculas.get("Poster")
+    ratingPelicula: str = datosPeliculas.get("imdbRating")
+    sinopsisPelicula: str = datosPeliculas.get("Plot")
     peliculaBase = Pelicula(
         idPelicula=idPelicula,
         titulo=datosPeliculas.get("Title"),
-        genero=datosPeliculas.get("Genre"),
-        urlPoster=datosPeliculas.get("Poster"),
-        rating=datosPeliculas.get("imdbRating"),
-        sinopsis=datosPeliculas.get("Plot"),
+        genero=None if generoPelicula == "N/A" else generoPelicula,
+        urlPoster=None if urlPosterPelicula == "N/A" else urlPosterPelicula,
+        rating=None if ratingPelicula == "N/A" else ratingPelicula,
+        sinopsis=None if sinopsisPelicula == "N/A" else sinopsisPelicula,
     )
     return peliculaBase
 
