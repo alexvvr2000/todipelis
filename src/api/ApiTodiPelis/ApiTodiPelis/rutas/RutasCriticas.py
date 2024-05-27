@@ -36,10 +36,7 @@ def obtenerCriticas():
 @jwt_required()
 def obtenerCriticaUsuario(idPelicula: str):
     conexion: Connection = obtenerConexion()
-    idUsuarioActual: int = current_user.idUsuario
-    criticaBase: ListaCriticas = obtenerCriticaUsuarioBase(
-        conexion, IdUsuarioPelicula(idUsuarioActual, idPelicula)
-    )
+    criticaBase: ListaCriticas = obtenerCriticaUsuarioBase(conexion, idPelicula)
     return jsonify(criticaBase)
 
 

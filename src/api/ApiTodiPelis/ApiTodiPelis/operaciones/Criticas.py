@@ -18,26 +18,24 @@ def estrellasValidas(estrellas: Decimal) -> bool:
 
 
 @jwt_required()
-def existeCriticaBase(conexion: Connection, idPeliculaIdApi: IdUsuarioPelicula) -> bool:
+def existeCriticaBase(conexion: Connection, idPelicula: str) -> bool:
     cursor: Cursor = conexion.cursor()
     cursor.execute(
         "select funcionExisteCritica(?,?) as existe",
-        [idPeliculaIdApi.idPelicula, idPeliculaIdApi.idUsuario],
+        [idPelicula, current_user.idUsuario],
     )
     filaRetornada = cursor.fetchone()
     return filaRetornada[0] == 1
 
 
 @jwt_required()
-def obtenerCriticaUsuarioBase(
-    conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
-) -> ListaCriticas:
-    if not existeCriticaBase(conexion, idUsuarioPelicula):
+def obtenerCriticaUsuarioBase(conexion: Connection, idPelicula: str) -> ListaCriticas:
+    if not existeCriticaBase(conexion, idPelicula):
         raise Exception("Critica no existe en base")
     cursor: Cursor = conexion.cursor()
     cursor.callproc(
         "procedureObtenerCriticaUsuario",
-        [idUsuarioPelicula.idPelicula, idUsuarioPelicula.idUsuario],
+        [idPelicula, current_user.idUsuario],
     )
     filaRetornada = cursor.fetchone()
     cursor.close()
@@ -47,7 +45,7 @@ def obtenerCriticaUsuarioBase(
     if filaRetornada[3] is not None:
         fechaModificado = datetime.strptime(str(filaRetornada[3]), "%Y-%m-%d %H:%M:%S")
     return ListaCriticas(
-        idUsuarioPelicula,
+        idCritica=IdUsuarioPelicula(current_user.idUsuario, idPelicula),
         descripcion=filaRetornada[0],
         estrellas=filaRetornada[1],
         fechaAgregado=datetime.strptime(str(filaRetornada[2]), "%Y-%m-%d").date(),
@@ -87,6 +85,8 @@ def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
 def agregarCriticaBase(
     conexion: Connection, criticaNueva: ListaCriticas
 ) -> IdUsuarioPelicula:
+    if criticaNueva.idCritica.idUsuario != current_user.idUsuario:
+        raise Exception("id de usuario no concuerdan con el usuario actual")
     if existeCriticaBase(conexion, criticaNueva.idCritica):
         raise Exception("Usuario ya tiene una critica de la pelicula dada")
     if not existePeliculaBase(conexion, criticaNueva.idCritica.idPelicula):
@@ -112,6 +112,8 @@ def agregarCriticaBase(
 
 @jwt_required()
 def borrarCriticaBase(conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula):
+    if idUsuarioPelicula.idCritica.idUsuario != current_user.idUsuario:
+        raise Exception("id de usuario no concuerdan con el usuario actual")
     if not existeCriticaBase(conexion, idUsuarioPelicula):
         raise Exception("Critica no existe en base")
     cursor: Cursor = conexion.cursor()
@@ -128,6 +130,8 @@ def borrarCriticaBase(conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
 def actualizarEstrellasBase(
     conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula, nuevasEstrellas: Decimal
 ) -> Decimal:
+    if idUsuarioPelicula.idCritica.idUsuario != current_user.idUsuario:
+        raise Exception("id de usuario no concuerdan con el usuario actual")
     if not estrellasValidas(nuevasEstrellas):
         raise Exception("Estrellas deben estar entre 0 y 5")
     cursor: Cursor = conexion.cursor()
@@ -145,6 +149,8 @@ def actualizarEstrellasBase(
 def actualizarDescripcionCriticaBase(
     conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula, nuevaDescripcion: str
 ) -> str:
+    if idUsuarioPelicula.idCritica.idUsuario != current_user.idUsuario:
+        raise Exception("id de usuario no concuerdan con el usuario actual")
     if nuevaDescripcion == "":
         raise Exception("Descripcion nueva invalida")
     cursor: Cursor = conexion.cursor()
