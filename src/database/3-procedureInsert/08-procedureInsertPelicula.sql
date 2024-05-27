@@ -3,31 +3,31 @@ use todipelis;
 DELIMITER //
 
 CREATE PROCEDURE procedureInsertPelicula(
-    IN insertadoIdPelicula VARCHAR(100),
-    IN nuevoTitulo VARCHAR(255),
-    IN nuevoGenero VARCHAR(255),
-    IN nuevoUrlPoster VARCHAR(255),
-    IN rating DECIMAL(4,2),
-    IN sinopsis TEXT
+    IN insertadoIdPelicula VARCHAR(100) NOT NULL,
+    IN nuevoTitulo VARCHAR(255) NOT NULL,
+    IN nuevoGenero VARCHAR(255) NULL,
+    IN nuevoUrlPoster VARCHAR(255) NULL,
+    IN rating DECIMAL(4,2) NULL,
+    IN sinopsis TEXT NULL
 )
 BEGIN
     IF LENGTH(nuevoTitulo) = 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2200: Pelicula.titulo debe tener 1 caracter o más';
     END IF;
 
-    IF LENGTH(nuevoGenero) = 0 THEN
+    IF LENGTH(nuevoGenero) = 0 AND nuevoGenero IS NOT NULL THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2300: Pelicula.genero debe tener 1 caracter o más';
     END IF;
 
-    IF LENGTH(nuevoUrlPoster) = 0 THEN
+    IF LENGTH(nuevoUrlPoster) = 0 AND nuevoUrlPoster IS NOT NULL THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2400: Pelicula.urlPoster debe tener 1 caracter o más';
     END IF;
 
-    IF rating < 0 OR rating > 10 THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2500: Pelicula.rating debe tener 1 caracter o más';
+    IF (rating < 0 OR rating > 10) AND rating IS NOT NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2500: Pelicula.rating debe estar entre 0 y 10';
     END IF;
 
-    IF LENGTH(sinopsis) = 0 THEN
+    IF LENGTH(sinopsis) = 0 AND sinopsis IS NOT NULL THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 2600: Pelicula.sinopsis debe tener 1 caracter o más';
     END IF;
     IF funcionPeliculaExiste(insertadoIdPelicula) THEN

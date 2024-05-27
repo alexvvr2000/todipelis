@@ -13,10 +13,10 @@ CREATE TABLE Usuario (
 CREATE TABLE Pelicula (
     idPelicula VARCHAR(100) PRIMARY KEY,
     titulo VARCHAR(255) NOT NULL,
-    genero VARCHAR(255) NOT NULL,
-    urlPoster VARCHAR(255) NOT NULL,
-    rating DECIMAL(4,2) NOT NULL,
-    sinopsis TEXT NOT NULL
+    genero VARCHAR(255) NULL,
+    urlPoster VARCHAR(255) NULL,
+    rating DECIMAL(4,2) NULL,
+    sinopsis TEXT NULL
 );
 
 CREATE TABLE ListaCriticas (
