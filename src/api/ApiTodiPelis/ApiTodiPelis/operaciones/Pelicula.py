@@ -1,9 +1,18 @@
 from typing import Dict
-from flask import g
 from requests import get, Response
 from get_docker_secret import get_docker_secret
 from mariadb import Connection, Cursor
 from ApiTodiPelis.types import Pelicula
+from dataclasses import dataclass
+from typing import List
+
+
+@dataclass(frozen=True)
+class PaginaBusquedaTitulo:
+    resultadoBusqueda: List[Pelicula]
+    totalResultados: int
+    totalPaginas: int
+    paginaActual: int
 
 
 def existePeliculaBase(conexion: Connection, idPelicula: str) -> bool:
