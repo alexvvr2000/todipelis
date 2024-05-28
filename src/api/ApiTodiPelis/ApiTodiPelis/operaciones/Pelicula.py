@@ -124,18 +124,19 @@ def obtenerPeliculaTitulo(
 
 
 def obtenerPelicula(conexion: Connection, idPelicula: str) -> Pelicula:
-    peliculaBase: Pelicula | None
+    peliculaBase: Pelicula
     if existePeliculaBase(conexion, idPelicula):
         cursor: Cursor = conexion.cursor()
         cursor.callproc("procedureObtenerPelicula", (idPelicula,))
         filaRetornada = cursor.fetchone()
         cursor.close()
+        ratingPelicula: str | None = filaRetornada[3]
         peliculaBase: Pelicula = Pelicula(
             idPelicula=idPelicula,
             titulo=filaRetornada[0],
             genero=filaRetornada[1],
             urlPoster=filaRetornada[2],
-            rating=Decimal(filaRetornada[3]),
+            rating=Decimal(ratingPelicula) if ratingPelicula is not None else None,
             sinopsis=filaRetornada[4],
         )
         return peliculaBase
