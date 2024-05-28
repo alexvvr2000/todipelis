@@ -47,7 +47,7 @@ def obtenerCriticaUsuarioBase(conexion: Connection, idPelicula: str) -> ListaCri
     return ListaCriticas(
         idCritica=IdUsuarioPelicula(current_user.idUsuario, idPelicula),
         descripcion=filaRetornada[0],
-        estrellas=filaRetornada[1],
+        estrellas=Decimal(filaRetornada[1]),
         fechaAgregado=datetime.strptime(str(filaRetornada[2]), "%Y-%m-%d").date(),
         fechaModificado=fechaModificado,
     )
@@ -68,7 +68,7 @@ def obtenerCriticasBase(conexion: Connection) -> List[ListaCriticas]:
             )
         valoresBase.append(
             ListaCriticas(
-                idCritica=IdUsuarioPelicula(1, criticaActual[0]),
+                idCritica=IdUsuarioPelicula(current_user.idUsuario, criticaActual[0]),
                 descripcion=criticaActual[1],
                 estrellas=Decimal(criticaActual[2]),
                 fechaAgregado=datetime.strptime(
