@@ -111,8 +111,10 @@ def agregarCriticaBase(
 
 
 @jwt_required()
-def borrarCriticaBase(conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula):
-    if idUsuarioPelicula.idCritica.idUsuario != current_user.idUsuario:
+def borrarCriticaBase(
+    conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
+) -> IdUsuarioPelicula:
+    if idUsuarioPelicula.idUsuario != current_user.idUsuario:
         raise Exception("id de usuario no concuerdan con el usuario actual")
     if not existeCriticaBase(conexion, idUsuarioPelicula):
         raise Exception("Critica no existe en base")
@@ -130,7 +132,7 @@ def borrarCriticaBase(conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula
 def actualizarEstrellasBase(
     conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula, nuevasEstrellas: Decimal
 ) -> Decimal:
-    if idUsuarioPelicula.idCritica.idUsuario != current_user.idUsuario:
+    if idUsuarioPelicula.idUsuario != current_user.idUsuario:
         raise Exception("id de usuario no concuerdan con el usuario actual")
     if not estrellasValidas(nuevasEstrellas):
         raise Exception("Estrellas deben estar entre 0 y 5")
@@ -149,7 +151,7 @@ def actualizarEstrellasBase(
 def actualizarDescripcionCriticaBase(
     conexion: Connection, idUsuarioPelicula: IdUsuarioPelicula, nuevaDescripcion: str
 ) -> str:
-    if idUsuarioPelicula.idCritica.idUsuario != current_user.idUsuario:
+    if idUsuarioPelicula.idUsuario != current_user.idUsuario:
         raise Exception("id de usuario no concuerdan con el usuario actual")
     if nuevaDescripcion == "":
         raise Exception("Descripcion nueva invalida")
