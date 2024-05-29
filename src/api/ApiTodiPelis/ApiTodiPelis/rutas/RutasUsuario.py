@@ -26,10 +26,6 @@ def verificarUsuarioBase():
     conexion: Connection = obtenerConexion()
     correoElectronicoUsuario: str = request.headers.get("correoElectronico", "")
     claveAccesoUsuario: str = request.headers.get("claveAcceso", "")
-    if correoElectronicoUsuario == "":
-        abort(500)
-    if claveAccesoUsuario == "":
-        abort(500)
     idUsuarioBase: int = identificarUsuario(
         conexion, correoElectronicoUsuario, claveAccesoUsuario
     )
