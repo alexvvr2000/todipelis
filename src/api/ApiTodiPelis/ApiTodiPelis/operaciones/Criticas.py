@@ -87,7 +87,7 @@ def agregarCriticaBase(
 ) -> IdUsuarioPelicula:
     if criticaNueva.idCritica.idUsuario != current_user.idUsuario:
         raise Exception("id de usuario no concuerdan con el usuario actual")
-    if existeCriticaBase(conexion, criticaNueva.idCritica):
+    if existeCriticaBase(conexion, criticaNueva.idCritica.idPelicula):
         raise Exception("Usuario ya tiene una critica de la pelicula dada")
     if not existePeliculaBase(conexion, criticaNueva.idCritica.idPelicula):
         peliculaNueva: Pelicula = obtenerPeliculaIdApi(
@@ -116,7 +116,7 @@ def borrarCriticaBase(
 ) -> IdUsuarioPelicula:
     if idUsuarioPelicula.idUsuario != current_user.idUsuario:
         raise Exception("id de usuario no concuerdan con el usuario actual")
-    if not existeCriticaBase(conexion, idUsuarioPelicula):
+    if not existeCriticaBase(conexion, idUsuarioPelicula.idPelicula):
         raise Exception("Critica no existe en base")
     cursor: Cursor = conexion.cursor()
     cursor.callproc(
