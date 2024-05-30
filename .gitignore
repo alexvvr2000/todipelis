@@ -1,3 +1,6 @@
+# enviroment bruno
+src/api/ApiTodiPelis/test/todiPelisBruno/environments
+
 # secrets docker
 src/api/api-key.txt
 src/api/jwt-key.txt
