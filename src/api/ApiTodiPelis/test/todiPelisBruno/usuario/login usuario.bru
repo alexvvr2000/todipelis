@@ -1,0 +1,25 @@
+meta {
+  name: login usuario
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://{{URL}}:{{HOST_API}}/
+  body: none
+  auth: none
+}
+
+headers {
+  claveAcceso: al
+  correoElectronico: al
+}
+
+tests {
+  if(res.getStatus() != 200){
+      throw new Error("No se pudo conectar usando el usuario")
+  }
+  
+  // let respuestaJson = pm.response.toJSON()
+  bru.setVar("TODIPELIS_AUTH", respuestaJson["key"])
+}

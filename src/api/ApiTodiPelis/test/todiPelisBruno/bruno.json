@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "todipelis",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

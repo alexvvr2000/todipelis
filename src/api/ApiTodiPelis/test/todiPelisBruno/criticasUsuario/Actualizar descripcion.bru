@@ -1,0 +1,15 @@
+meta {
+  name: Actualizar descripcion
+  type: http
+  seq: 7
+}
+
+put {
+  url: http://{{URL}}:{{HOST_API}}/criticas/tt0120689?descripcion=Actualizando descripcion por segunda vez
+  body: none
+  auth: inherit
+}
+
+query {
+  descripcion: Actualizando descripcion por segunda vez
+}

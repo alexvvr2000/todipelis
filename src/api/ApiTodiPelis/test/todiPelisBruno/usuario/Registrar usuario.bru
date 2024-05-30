@@ -1,0 +1,32 @@
+meta {
+  name: Registrar usuario
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://{{URL}}:{{HOST_API}}/
+  body: none
+  auth: none
+}
+
+headers {
+  claveAcceso: {{CLAVE_ACTUAL}}
+  nombreUsuario: {{USUARIO_ACTUAL}}
+  correoElectronico: {{CORREO_ACTUAL}}
+}
+
+script:pre-request {
+  // let correoNuevo= pm.variables.replaceIn("{{$randomEmail}}")
+  // let nombreNuevo= pm.variables.replaceIn("{{$randomUserName}}")
+  // let claveNueva= pm.variables.replaceIn("{{$randomUUID}}")
+  
+  bru.setVar("CORREO_ACTUAL", correoNuevo)
+  bru.setVar("USUARIO_ACTUAL", nombreNuevo)
+  bru.setVar("CLAVE_ACTUAL", claveNueva)
+}
+
+tests {
+  let respuestaApi = res.getBody()
+  bru.setVar("TODIPELIS_AUTH", respuestaApi["key"])
+}

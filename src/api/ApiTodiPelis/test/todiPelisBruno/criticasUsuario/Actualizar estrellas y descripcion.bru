@@ -1,0 +1,16 @@
+meta {
+  name: Actualizar estrellas y descripcion
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://{{URL}}:{{HOST_API}}/criticas/tt0120689?estrellas=3&descripcion=Valor actualizado por primera vez
+  body: none
+  auth: inherit
+}
+
+query {
+  estrellas: 3
+  descripcion: Valor actualizado por primera vez
+}

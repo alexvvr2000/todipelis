@@ -1,0 +1,11 @@
+meta {
+  name: obtener todas las criticas
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://{{URL}}:{{HOST_API}}/criticas/
+  body: none
+  auth: inherit
+}

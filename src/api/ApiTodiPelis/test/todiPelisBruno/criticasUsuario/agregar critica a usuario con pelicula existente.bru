@@ -1,0 +1,17 @@
+meta {
+  name: agregar critica a usuario con pelicula existente
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://{{URL}}:{{HOST_API}}/criticas?idPelicula=tt0120689&descripcion=Primer critica de la critica&estrellas=4.5
+  body: none
+  auth: inherit
+}
+
+query {
+  idPelicula: tt0120689
+  descripcion: Primer critica de la critica
+  estrellas: 4.5
+}
