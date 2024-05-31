@@ -1,9 +1,17 @@
 {
-  "version": "1",
-  "name": "todipelis",
-  "type": "collection",
-  "ignore": [
-    "node_modules",
-    ".git"
-  ]
+    "version": "1",
+    "name": "todipelis",
+    "type": "collection",
+    "scripts": {
+        "moduleWhitelist": [
+            "@faker-js/faker"
+        ],
+        "filesystemAccess": {
+            "allow": true
+        }
+    },
+    "ignore": [
+        "node_modules",
+        ".git"
+    ]
 }
