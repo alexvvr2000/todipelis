@@ -15,6 +15,15 @@ headers {
   correoElectronico: al
 }
 
+script:post-response {
+  if(res.getStatus() != 200){
+    throw new Error("No se pudo iniciar sesion")
+  }
+  
+  let valoresBody = res.getBody()
+  bru.setEnvVar("key",valoresBody.key)
+}
+
 tests {
   if(res.getStatus() != 200){
       throw new Error("No se pudo conectar usando el usuario")

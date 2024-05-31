@@ -17,13 +17,24 @@ headers {
 }
 
 script:pre-request {
-  // let correoNuevo= pm.variables.replaceIn("{{$randomEmail}}")
-  // let nombreNuevo= pm.variables.replaceIn("{{$randomUserName}}")
-  // let claveNueva= pm.variables.replaceIn("{{$randomUUID}}")
+  const { faker } = require('@faker-js/faker');
   
-  bru.setVar("CORREO_ACTUAL", correoNuevo)
-  bru.setVar("USUARIO_ACTUAL", nombreNuevo)
-  bru.setVar("CLAVE_ACTUAL", claveNueva)
+  let correoFalso = faker.internet.email()
+  let nombreFalso = faker.internet.userName()
+  let claveFalsa = faker.string.uuid()
+  
+  bru.setEnvVar("CORREO_ACTUAL", correoFalso)
+  bru.setEnvVar("USUARIO_ACTUAL", nombreFalso)
+  bru.setEnvVar("CLAVE_ACTUAL", claveFalsa)
+}
+
+script:post-response {
+  if(res.getStatus() != 200){
+    throw new Error("No se pudo iniciar sesion")
+  }
+  
+  let valoresBody = res.getBody()
+  bru.setEnvVar("AUTH_ACTUAL",valoresBody.key)
 }
 
 tests {
